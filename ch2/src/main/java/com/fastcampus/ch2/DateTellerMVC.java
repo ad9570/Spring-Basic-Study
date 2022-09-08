@@ -31,7 +31,7 @@ public class DateTellerMVC {	// http://localhost/ch2/getDateMVC?year=2022&month=
       cal.set(year, month - 1, day);
 
       int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);	// 1:일요일, 2:월요일, ...
-      char date = " �Ͽ�ȭ�������".charAt(dayOfWeek);
+      char date = " 일월화수목금토".charAt(dayOfWeek);
 
       // 3. 출력
       response.setContentType("text/html");    // 응답의 형식을 html로 지정
@@ -42,8 +42,8 @@ public class DateTellerMVC {	// http://localhost/ch2/getDateMVC?year=2022&month=
       out.println("<head>");
       out.println("</head>");
       out.println("<body>");
-      out.println(year + "�� " + month + "�� " + day + "���� ");
-      out.println(date + "�����Դϴ�.");
+      out.println(year + "년 " + month + "월 " + day + "일은 ");
+      out.println(date + "요일입니다.");
       out.println("</body>");
       out.println("</html>");
       out.close();
