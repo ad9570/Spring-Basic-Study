@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class RequestMessage {
 	@RequestMapping("/requestMessage")
 	public void main(HttpServletRequest request) throws Exception {
-		// ¿äÃ»ÀÇ Çì´õ¿Í ¸Ş½ÃÁö±îÁö ¸ğµÎ Ãâ·ÂÇØº¸±â
+		// ìš”ì²­ì˜ í—¤ë”ì™€ ë©”ì‹œì§€ê¹Œì§€ ëª¨ë‘ ì¶œë ¥í•´ë³´ê¸°
 		// 1. request line
-		String requestLine = request.getMethod();       // GET ¶Ç´Â POST
+		String requestLine = request.getMethod();       // GET ë˜ëŠ” POST
 		requestLine += " " + request.getRequestURI();   // /ch2/requestMessage
 		
 		String queryString = request.getQueryString();  // year=2021&month=10&day=1
@@ -29,11 +29,11 @@ public class RequestMessage {
 			System.out.println(name + ":" + request.getHeader(name));
 		}
 		
-		// 3. request body - POSTÀÏ ¶§¸¸ ÇØ´ç, GETÀº body°¡ ¾øÀ½(CONTENT_LENGTH=-1)
+		// 3. request body - POSTì¼ ë•Œë§Œ í•´ë‹¹, GETì€ bodyê°€ ì—†ìŒ(CONTENT_LENGTH=-1)
 		final int CONTENT_LENGTH = request.getContentLength();
 		System.out.println("(body content length="+CONTENT_LENGTH+")");
 		
-		if(CONTENT_LENGTH > 0) {	// body°¡ ÀÖÀ» ¶§(POSTÀÏ ¶§)
+		if(CONTENT_LENGTH > 0) {	// bodyê°€ ìˆì„ ë•Œ(POSTì¼ ë•Œ)
 			byte[] content = new byte[CONTENT_LENGTH];
 
 			InputStream in = request.getInputStream();

@@ -12,9 +12,9 @@ public class RequestHeader {
 	@RequestMapping("/requestHeader")
 	public void main(HttpServletRequest request) {
 		
-		Enumeration<String> e = request.getHeaderNames();	// ¿äÃ»ÇÑ Çì´õÀÇ Iterator
+		Enumeration<String> e = request.getHeaderNames();	// ìš”ì²­í•œ í—¤ë”ì˜ Iterator
 
-		while (e.hasMoreElements()) {	// ¿äÃ»ÇÑ Çì´õ¸¦ ¸ğµÎ Ãâ·Â
+		while (e.hasMoreElements()) {	// ìš”ì²­í•œ í—¤ë”ë¥¼ ëª¨ë‘ ì¶œë ¥
 			String name = e.nextElement();
 			System.out.println(name + ":" + request.getHeader(name));
 		}

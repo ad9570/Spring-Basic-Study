@@ -10,35 +10,30 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-// 년월일을 입력하면 요일을 알려주는 프로그램
+//년월일을 입력하면 요일을 알려주는 프로그램
 @Controller
-public class DateTeller {
+public class DateTellerMVC {	// http://localhost/ch2/getDateMVC?year=2022&month=9&day=8
 
-//	public static void main(String[] args) {
-	@RequestMapping("/getDate")
-	public void main(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		 // 1. 입력
-//      String year = args[0];
-//      String month = args[1];
-//      String day = args[2];
-      String year = request.getParameter("year");
-      String month = request.getParameter("month");
-      String day = request.getParameter("day");
+	@RequestMapping("/getDateMVC")
+//	public void main(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void main(int year, int month, int day, HttpServletResponse response) throws IOException {
+	  // 1. 입력
+//      String year = request.getParameter("year");
+//      String month = request.getParameter("month");
+//      String day = request.getParameter("day");
 
-      int yyyy = Integer.parseInt(year);
-      int mm = Integer.parseInt(month);
-      int dd = Integer.parseInt(day);
+//      int yyyy = Integer.parseInt(year);
+//      int mm = Integer.parseInt(month);
+//      int dd = Integer.parseInt(day);
 
       // 2. 처리(작업)
       Calendar cal = Calendar.getInstance();
-      cal.set(yyyy, mm - 1, dd);
+      cal.set(year, month - 1, day);
 
       int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);	// 1:일요일, 2:월요일, ...
-      char yoil = " 일월화수목금토".charAt(dayOfWeek);
+      char date = " �Ͽ�ȭ�������".charAt(dayOfWeek);
 
       // 3. 출력
-//      System.out.println(year + "년 " + month + "월 " + day + "일은 ");
-//      System.out.println(yoil + "요일입니다.");
       response.setContentType("text/html");    // 응답의 형식을 html로 지정
       response.setCharacterEncoding("utf-8");  // 응답의 인코딩을 utf-8로 지정
       
@@ -47,8 +42,8 @@ public class DateTeller {
       out.println("<head>");
       out.println("</head>");
       out.println("<body>");
-      out.println(year + "년 " + month + "월 " + day + "일은 ");
-      out.println(yoil + "요일입니다.");
+      out.println(year + "�� " + month + "�� " + day + "���� ");
+      out.println(date + "�����Դϴ�.");
       out.println("</body>");
       out.println("</html>");
       out.close();

@@ -3,26 +3,26 @@ package com.fastcampus.ch2;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-// 1. ¿ø°İ È£Ãâ °¡´ÉÇÑ ÇÁ·Î±×·¥À¸·Î µî·Ï
+// 1. ì›ê²© í˜¸ì¶œ ê°€ëŠ¥í•œ í”„ë¡œê·¸ë¨ìœ¼ë¡œ ë“±ë¡
 @Controller
 public class Hello {
 	
-	int iv = 10;	// ÀÎ½ºÅÏ½º º¯¼ö
-	static int cv = 20;	// Å¬·¡½º º¯¼ö
+	int iv = 10;	// ì¸ìŠ¤í„´ìŠ¤ ë³€ìˆ˜
+	static int cv = 20;	// í´ë˜ìŠ¤ ë³€ìˆ˜
 
-	// 2. URL°ú ¸Ş¼­µå¸¦ ¿¬°á
+	// 2. URLê³¼ ë©”ì„œë“œë¥¼ ì—°ê²°
 //	@RequestMapping("/hello")
-	public void main() {	// ÀÎ½ºÅÏ½º ¸Ş¼­µå : iv, cv µÑ ´Ù »ç¿ë °¡´É
-		System.out.println("Hello");	// ºê¶ó¿ìÀú¿¡´Â Ãâ·ÂÇÒ ³»¿ëÀÌ ¾øÁö¸¸ ÄÜ¼Ö¿¡ ÂïÈû
+	public void main() {	// ì¸ìŠ¤í„´ìŠ¤ ë©”ì„œë“œ : iv, cv ë‘˜ ë‹¤ ì‚¬ìš© ê°€ëŠ¥
+		System.out.println("Hello");	// ë¸Œë¼ìš°ì €ì—ëŠ” ì¶œë ¥í•  ë‚´ìš©ì´ ì—†ì§€ë§Œ ì½˜ì†”ì— ì°í˜
 		System.out.println(cv);	// 20
 		System.out.println(iv);	// 10
 	}
 	
 //	@RequestMapping("/hello")
-	public static void main2() {	// static ¸Ş¼­µå : cv¸¸ »ç¿ë °¡´É
+	public static void main2() {	// static ë©”ì„œë“œ : cvë§Œ ì‚¬ìš© ê°€ëŠ¥
 		System.out.println("Hello - static");
 		System.out.println(cv);	// 20
-//		System.out.println(iv);	// ¿¡·¯
+//		System.out.println(iv);	// ì—ëŸ¬
 	}
 	
 	@RequestMapping("/hello")
