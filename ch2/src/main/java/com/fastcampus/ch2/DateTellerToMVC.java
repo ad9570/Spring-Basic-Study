@@ -14,7 +14,7 @@ public class DateTellerToMVC {	// http://localhost/ch2/getDateToMVC?year=2022&mo
 	@RequestMapping("/getDateToMVC")
 //	public void main(HttpServletRequest request, HttpServletResponse response) throws IOException {
 	// 0. 입력
-	public String main(int year, int month, int day, Model model) throws IOException {
+	public String main(int year, int month, int day, Model m) throws IOException {
 //      String year = request.getParameter("year");
 //      String month = request.getParameter("month");
 //      String day = request.getParameter("day");
@@ -31,10 +31,10 @@ public class DateTellerToMVC {	// http://localhost/ch2/getDateToMVC?year=2022&mo
 		char date = getDate(year, month, day);
 		
 		// 3. 계산한 결과를 Model에 저장
-		model.addAttribute("year", year);
-		model.addAttribute("month", month);
-		model.addAttribute("day", day);
-		model.addAttribute("date", date);
+		m.addAttribute("year", year);
+		m.addAttribute("month", month);
+		m.addAttribute("day", day);
+		m.addAttribute("date", date);
 
 		// 4. 출력
 		return "date";	// /WEB-INF/views/date.jsp

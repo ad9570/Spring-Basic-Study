@@ -14,7 +14,7 @@ public class DateTellerMVC {	// http://localhost/ch2/getDateMVC?year=2022&month=
 
 	@RequestMapping("/getDateMVC")
 	// 0. 입력
-	public String main(int year, int month, int day, Model model) throws IOException {
+	public String main(int year, int month, int day, Model m) throws IOException {
 //	public ModelAndView main(int year, int month, int day) throws IOException {
 //		ModelAndView mv = new ModelAndView();
 		
@@ -29,10 +29,10 @@ public class DateTellerMVC {	// http://localhost/ch2/getDateMVC?year=2022&month=
 		char date = getDate(year, month, day);
 		
 		// 3. 계산한 결과를 Model에 저장
-		model.addAttribute("year", year);
-		model.addAttribute("month", month);
-		model.addAttribute("day", day);
-		model.addAttribute("date", date);
+		m.addAttribute("year", year);
+		m.addAttribute("month", month);
+		m.addAttribute("day", day);
+		m.addAttribute("date", date);
 //		mv.addObject("year", year);
 //		mv.addObject("month", month);
 //		mv.addObject("day", day);
