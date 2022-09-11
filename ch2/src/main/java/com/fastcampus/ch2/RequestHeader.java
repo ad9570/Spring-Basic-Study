@@ -12,10 +12,10 @@ public class RequestHeader {
 	@RequestMapping("/requestHeader")
 	public void main(HttpServletRequest request) {
 		
-		Enumeration<String> e = request.getHeaderNames();	// 요청한 헤더의 Iterator
+		Enumeration<?> e = request.getHeaderNames();	// 요청한 헤더의 Iterator
 
 		while (e.hasMoreElements()) {	// 요청한 헤더를 모두 출력
-			String name = e.nextElement();
+			String name = (String)e.nextElement();
 			System.out.println(name + ":" + request.getHeader(name));
 		}
 	}

@@ -33,5 +33,5 @@ public class MethodInfo {
 			// -> (request, response)
 			System.out.printf("%s %s%s%n", returnType.getName(), name, paramList);
 		}
-	} // main
+	}
 }

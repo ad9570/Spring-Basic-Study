@@ -22,10 +22,10 @@ public class RequestMessage {
 
 		
 		// 2. request headers
-		Enumeration<String> e = request.getHeaderNames();
+		Enumeration<?> e = request.getHeaderNames();
 
 		while (e.hasMoreElements()) {
-			String name = e.nextElement();
+			String name = (String)e.nextElement();
 			System.out.println(name + ":" + request.getHeader(name));
 		}
 		
