@@ -3,10 +3,10 @@
 <%@ page session="false" %>
 <html>
 <head>
-	<title>date</title>
+	<title>date2</title>
 </head>
 <body>
 <h1>year=<%=request.getParameter("year")%></h1>
-<P>  ${year}년 ${month}월 ${day}일은 ${date}요일입니다. </P>
+<P>  ${param.year}년 ${param.month}월 ${param.day}일은 ${date}요일입니다. </P>
 </body>
 </html>

@@ -5,49 +5,51 @@ import java.util.Calendar;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.servlet.ModelAndView;
 
 //년월일을 입력하면 요일을 알려주는 프로그램
 @Controller
-public class DateTellerMVC {	// http://localhost/ch2/getDateMVC?year=2022&month=9&day=8
+public class DateTellerMVC4 {	// http://localhost/ch2/getDateMVC4?year=2022&month=9&day=15
 
-	@RequestMapping("/getDateMVC")
+	@ExceptionHandler(Exception.class)
+	public String catcher(Exception ex) {
+		ex.printStackTrace();
+		return "dateError";
+	}
+	
+	@RequestMapping("/getDateMVC4")
 	// 0. 입력
-	public String main(int year, int month, int day, Model m) throws IOException {
-//	public ModelAndView main(int year, int month, int day) throws IOException {
-//		ModelAndView mv = new ModelAndView();
+	public String main(MyDate myDate, Model m) throws IOException {
 		
 		// 1. 유효성 검사
-		if (!isValid(year, month, day)) {
+		if (!isValid(myDate)) {
 			return "dateError";
-//			mv.setViewName("dateError");
-//			return mv;
 		}
 
 		// 2. 처리(작업)
-		char date = getDate(year, month, day);
+		char date = getDate(myDate);
 		
 		// 3. 계산한 결과를 Model에 저장
-		m.addAttribute("year", year);
-		m.addAttribute("month", month);
-		m.addAttribute("day", day);
+		m.addAttribute("myDate", myDate);
 		m.addAttribute("date", date);
-//		mv.addObject("year", year);
-//		mv.addObject("month", month);
-//		mv.addObject("day", day);
-//		mv.addObject("date", date);
 
 		// 4. 출력
-		return "date";	// /WEB-INF/views/date.jsp
-//		mv.setViewName("date");
-//		return mv;
+		return "date2";	// /WEB-INF/views/date2.jsp
 	}
 
+	private boolean isValid(MyDate myDate) {
+		return isValid(myDate.getYear(), myDate.getMonth(), myDate.getDay());
+	}
+	
 	private boolean isValid(int year, int month, int day) {
 		if(year == -1 || month == -1 || day == -1)
 			return false;
 		return (1<=month && month<=12) && (1<=day && day<=31);
+	}
+	
+	private char getDate(MyDate myDate) {
+		return getDate(myDate.getYear(), myDate.getMonth(), myDate.getDay());
 	}
 
 	private char getDate(int year, int month, int day) {
