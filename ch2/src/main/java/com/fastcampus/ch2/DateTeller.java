@@ -38,7 +38,7 @@ public class DateTeller {
 
       // 3. 출력
 //      System.out.println(year + "년 " + month + "월 " + day + "일은 ");
-//      System.out.println(yoil + "요일입니다.");
+//      System.out.println(date + "요일입니다.");
       response.setContentType("text/html");    // 응답의 형식을 html로 지정
       response.setCharacterEncoding("utf-8");  // 응답의 인코딩을 utf-8로 지정
       
