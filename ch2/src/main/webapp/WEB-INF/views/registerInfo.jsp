@@ -18,5 +18,12 @@
 <h1>sns=${paramValues.sns[0]}</h1>
 <h1>sns=${paramValues.sns[1]}</h1>
 <h1>sns=${paramValues.sns[2]}</h1>
+<hr>
+<h1>user.id=${user.id}</h1>
+<h1>user.pwd=${user.pwd}</h1>
+<h1>user.name=${user.name}</h1>
+<h1>user.email=${user.email}</h1>
+<h1>user.birth=${user.birth}</h1>
+<h1>user.sns=${user.sns}</h1>
 </body>
 </html>

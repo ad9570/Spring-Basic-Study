@@ -41,7 +41,7 @@ public class RegisterController {
 	}
 
 	private boolean isValid(User user) {
-		return false;
+		return true;
 	}
 
 }
