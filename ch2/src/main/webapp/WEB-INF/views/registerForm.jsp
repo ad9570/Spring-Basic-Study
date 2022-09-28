@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="java.net.URLDecoder" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -70,7 +71,9 @@
 <body>
    <form action="<c:url value='/register/save'/>" method="post" onsubmit="return formCheck(this)">
     <div class="title">Register</div>
-    <div id="msg" class="msg"> </div> 
+    <div id="msg" class="msg">
+    	<i class="fa fa-exclamation-circle">${URLDecoder.decode(param.msg, "utf-8")}</i>
+    </div> 
     <label for="">아이디</label>
     <input class="input-field" type="text" name="id" placeholder="8~12자리의 영대소문자와 숫자 조합">
     <label for="">비밀번호</label>
@@ -105,7 +108,7 @@
            return true;
        }
 
-       function setMessage(msg, element){
+       function setMessage(msg, element) {
             document.getElementById("msg").innerHTML = `<i class="fa fa-exclamation-circle"> ${'${msg}'}</i>`;
 			// Template Literal과 EL을 구분하기 위해 Template Literal을 사용시 ${'${TL}'} 형태로 작성한다.
             if(element) {

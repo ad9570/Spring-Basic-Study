@@ -6,7 +6,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
-
+	<!-- 아래 태그에선 위에 정의된 각 스키마에 맞는 접두사를 사용해야 하지만 위에서 한 가지 종류의 스키마 접두사는 생략 가능하다. -->
+	<!-- 여기선 "http://www.springframework.org/schema/mvc"의 접두사인 mvc가 생략됨 -->
+	
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
@@ -20,6 +22,9 @@
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
+	
+	<!-- view-controller : GET 요청만 허용 -->
+	<view-controller path="/register/add" view-name="registerForm"/>
 	
 	<context:component-scan base-package="com.fastcampus.ch2" />
 	

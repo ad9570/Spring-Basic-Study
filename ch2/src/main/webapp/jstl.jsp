@@ -30,6 +30,10 @@
 	<c:otherwise>값이 유효하지 않습니다.</c:otherwise>
 </c:choose>
 <br>
+<c:set var="tagTxt" value="<h1>tag text</h1>"/>
+${tagTxt}
+<c:out value="${tagTxt}"/>
+<br>
 <c:set var="now" value="<%=new java.util.Date() %>"/>
 Server time is <fmt:formatDate value="${now}" type="both" pattern="yyyy/MM/dd HH:mm:ss"/>	
 </body>
