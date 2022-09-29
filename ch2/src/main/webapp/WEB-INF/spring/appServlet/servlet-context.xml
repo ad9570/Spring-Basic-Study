@@ -24,7 +24,7 @@
 	</beans:bean>
 	
 	<!-- view-controller : GET 요청만 허용 -->
-	<view-controller path="/register/add" view-name="registerForm"/>
+	<!-- <view-controller path="/register/add" view-name="registerForm"/> -->
 	
 	<context:component-scan base-package="com.fastcampus.ch2" />
 	
