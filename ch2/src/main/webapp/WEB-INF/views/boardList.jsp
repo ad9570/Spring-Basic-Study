@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
+<c:set var="loginLink" value="${sessionScope.id == null ? '/login/login' : '/login/logout'}"/>
+<c:set var="login" value="${sessionScope.id == null ? 'Login' : 'Logout'}"/>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
     <title>fastcampus</title>
     <link rel="stylesheet" href="<c:url value='/css/menu.css'/>">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>    
 </head>
 <body>
 <div id="menu">
@@ -21,9 +21,11 @@
 	</ul> 
 </div>
 <div style="text-align:center">
-	<h1>This is HOME</h1>
-	<h1>This is HOME</h1>
-	<h1>This is HOME</h1>
+	<h1>This is BOARD</h1>
+	<h1>This is BOARD</h1>
+	<h1>This is BOARD</h1>
+	<h1>This is BOARD</h1>
+	<h1>This is BOARD</h1>
 </div>
 </body>
 </html>

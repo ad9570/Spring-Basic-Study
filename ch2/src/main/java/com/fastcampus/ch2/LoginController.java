@@ -3,7 +3,9 @@ package com.fastcampus.ch2;
 import java.net.URLEncoder;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +22,8 @@ public class LoginController {
 	}
 	
 	@PostMapping("/login")
-	public String login(String id, String pwd, boolean rememberId, HttpServletResponse response) throws Exception {
+	public String login(String id, String pwd, String toURL, boolean rememberId,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 //	public String login(String id, String pwd, String rememberId, HttpServletResponse response) throws Exception {
 		System.out.println(rememberId);	// "on" : <input type="checkbox"> 체크시 기본 value="on"
 										// 체크가 안되어있다면 null
@@ -28,11 +31,16 @@ public class LoginController {
 										// Spring에서 boolean 타입으로 자동 형변환 가능
 										// 체크시 true / 미체크시 false
 		// 아이디, 비밀번호 체크
+		// 일치하지 않으면 로그인 화면으로 이동
 		if (!loginCheck(id, pwd)) {
 			String msg = URLEncoder.encode("아이디 또는 비밀번호가 일치하지 않습니다.", "utf-8");
 			
 			return "redirect:/login/login?msg=" + msg;
 		}
+		
+		// 일치하면 세션에 아이디를 저장
+		HttpSession session = request.getSession();
+		session.setAttribute("id", id);
 		
 		// rememberId 값에 따라 쿠키 생성 or 삭제
 		Cookie cookie = new Cookie("id", "asdf");
@@ -43,6 +51,16 @@ public class LoginController {
 		}
 		response.addCookie(cookie);
 		
+		// 원래 가려던 페이지로 이동
+		return "redirect:" + (toURL == null || toURL.equals("") ? "/" : toURL);
+	}
+	
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		// 세션을 종료
+		session.invalidate();
+		
+		// 홈으로 이동
 		return "redirect:/";
 	}
 
