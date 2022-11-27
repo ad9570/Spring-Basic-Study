@@ -28,6 +28,20 @@
 	
 	<context:component-scan base-package="com.fastcampus.ch2" />
 	
-	
+	<beans:bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<beans:property name="defaultErrorView" value="error"/>
+		<!-- 에러 종류별 뷰 맵핑 -->
+   		<beans:property name="exceptionMappings">
+   			<beans:props>
+     			<beans:prop key="com.fastcampus.ch2.MappingException">error400</beans:prop>
+   			</beans:props>
+   		</beans:property>
+   		<!-- 에러 뷰별 상태 코드 맵핑 -->
+		<beans:property name="statusCodes">
+			<beans:props>
+        		<beans:prop key="error400">400</beans:prop>
+			</beans:props>
+		</beans:property>
+  	</beans:bean>
 	
 </beans:beans>
