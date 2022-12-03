@@ -1,13 +1,20 @@
 package com.fastcampus.ch2;
 
+import java.util.Arrays;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class User {
 
 	private String id;
 	private String pwd;
 	private String name;
-	private String email;
-	private String birth;
-	private String sns;
+	private String[] hobby;
+	private Date birth;		// 스프링이 기본적으로 변환 가능한 날짜 형식이 아닐 경우 에러
+	private String sns;		// 스프링이 배열(String[] sns)을 문자열로 자동 변환
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	private Date join;
 	
 	public String getId() {
 		return id;
@@ -27,16 +34,16 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getEmail() {
-		return email;
+	public String[] gethobby() {
+		return hobby;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void sethobby(String[] hobby) {
+		this.hobby = hobby;
 	}
-	public String getBirth() {
+	public Date getBirth() {
 		return birth;
 	}
-	public void setBirth(String birth) {
+	public void setBirth(Date birth) {
 		this.birth = birth;
 	}
 	public String getSns() {
@@ -45,11 +52,17 @@ public class User {
 	public void setSns(String sns) {
 		this.sns = sns;
 	}
+	public Date getJoin() {
+		return join;
+	}
+	public void setJoin(Date join) {
+		this.join = join;
+	}
 	
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", pwd=" + pwd + ", name=" + name + ", email=" + email + ", birth=" + birth + ", sns="
-				+ sns + "]";
+		return "User [id=" + id + ", pwd=" + pwd + ", name=" + name + ", hobby=" + Arrays.toString(hobby) +
+				", birth=" + birth + ", sns=" + sns + ", join=" + join + "]";
 	}
 	
 }

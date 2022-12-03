@@ -2,14 +2,33 @@ package com.fastcampus.ch2;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.beans.propertyeditors.StringArrayPropertyEditor;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class RegisterController {
+	
+	// yyyy-MM-dd 형태의 문자열을 Date타입으로 변환
+	@InitBinder
+	public void toDate(WebDataBinder binder) {
+		ConversionService conversionService = binder.getConversionService();
+		System.out.println(conversionService);
+		
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		binder.registerCustomEditor(Date.class, "birth", new CustomDateEditor(df, false));
+		binder.registerCustomEditor(String[].class, new StringArrayPropertyEditor("#"));
+	}
 
 //	@RequestMapping(value = "/register/add", method = RequestMethod.GET)
 //	@GetMapping("/register/add")	// Spring 4.3+
@@ -23,7 +42,10 @@ public class RegisterController {
 	
 //	@RequestMapping(value = "/register/save", method = RequestMethod.POST)
 	@PostMapping("/register/save")	// Spring 4.3+
-	public String save(User user, Model m) throws UnsupportedEncodingException {
+	public String save(User user, BindingResult br, Model m) throws UnsupportedEncodingException {
+		// BindingResult br : '바로 앞'의 객체인 User user를 바인딩. '위치에 주의'해야함.
+		System.out.println("BindingResult = " + br);
+		
 		// 1. 유효성 검사
 		if (isValid(user).equals("r")) {
 			String msg = URLEncoder.encode("회원 가입 정보가 올바르지 않습니다.", "utf-8");

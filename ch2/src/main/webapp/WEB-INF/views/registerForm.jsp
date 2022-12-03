@@ -80,15 +80,16 @@
     <input class="input-field" type="password" name="pwd" placeholder="8~12자리의 영대소문자와 숫자 조합">
     <label for="">이름</label>
     <input class="input-field" type="text" name="name" placeholder="홍길동">
-    <label for="">이메일</label>
-    <input class="input-field" type="text" name="email" placeholder="example@fastcampus.co.kr"> 
+    <label for="">취미</label>
+    <input class="input-field" type="text" name="hobby" placeholder="독서#피아노#운동"> 
     <label for="">생일</label>
-    <input class="input-field" type="text" name="birth" placeholder="2020/12/31">
+    <input class="input-field" type="text" name="birth" placeholder="2020-12-31">
     <div class="sns-chk">
         <label><input type="checkbox" name="sns" value="facebook"/>페이스북</label>
         <label><input type="checkbox" name="sns" value="kakaotalk"/>카카오톡</label>
         <label><input type="checkbox" name="sns" value="instagram"/>인스타그램</label>
     </div>
+    <input id="now" type="hidden" name="join">
     <button>회원 가입</button>
    </form> 
    <script>
@@ -104,6 +105,12 @@
                 setMessage('pwd의 길이는 3이상이어야 합니다.', frm.pwd);
                 return false;
             }
+            
+            const now = new Date();
+            const y = now.getFullYear();
+            const m = now.getMonth() + 1;
+            const d = now.getDate();
+            document.getElementById("now").value = y + '/' + (m < 10 ? '0' + m : m) + '/' + (d < 10 ? '0' + d : d);
 
            return true;
        }
