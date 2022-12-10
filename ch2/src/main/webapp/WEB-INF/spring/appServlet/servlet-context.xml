@@ -12,7 +12,9 @@
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven />
+	<!-- 글로벌 Validator 등록 -->
+	<annotation-driven validator="globalValidator"/>
+	<beans:bean id="globalValidator" class="com.fastcampus.ch2.GlobalValidator"/>
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/**" location="/resources/" />

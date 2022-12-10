@@ -4,6 +4,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.StringArrayPropertyEditor;
@@ -11,6 +14,7 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +32,12 @@ public class RegisterController {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		binder.registerCustomEditor(Date.class, "birth", new CustomDateEditor(df, false));
 		binder.registerCustomEditor(String[].class, new StringArrayPropertyEditor("#"));
+		
+//		binder.setValidator(new UserValidator());	// UserValidator를 WebDataBinder의 로컬 Validator로 등록		
+		binder.addValidators(new UserValidator());	// setValidator() 사용 시 글로벌 Validator를 무시함
+		
+		List<Validator> validatorList = binder.getValidators();
+		System.out.println("validatorList = " + validatorList);
 	}
 
 //	@RequestMapping(value = "/register/add", method = RequestMethod.GET)
@@ -42,26 +52,44 @@ public class RegisterController {
 	
 //	@RequestMapping(value = "/register/save", method = RequestMethod.POST)
 	@PostMapping("/register/save")	// Spring 4.3+
-	public String save(User user, BindingResult br, Model m) throws UnsupportedEncodingException {
+	public String save(@Valid User user, BindingResult br, Model m) throws UnsupportedEncodingException {
 		// BindingResult br : '바로 앞'의 객체인 User user를 바인딩. '위치에 주의'해야함.
 		System.out.println("BindingResult = " + br);
 		
-		// 1. 유효성 검사
-		if (isValid(user).equals("r")) {
-			String msg = URLEncoder.encode("회원 가입 정보가 올바르지 않습니다.", "utf-8");
-//			m.addAttribute("msg", msg);
-//			return "redirect:/register/add";	// URL 재작성(rewriting)
-			// 위와 같이 model을 이용한 코드 작성 시
-			// 스프링이 자동으로 아래와 같은 쿼리스트링을 이용한 코드로 바꿔서 처리
-			// /register/save의 model은 /register/add로 redirect 된 이후 쓸수 없게 되기 때문
-			return "redirect:/register/add?msg="+msg;
-		} else if (isValid(user).equals("f")) {
-			return "forward:/register/add";
+		int validationMethod = 2;
+		// 1. 유효성 검사(validator 혹은 기존 방식 선택)
+		switch (validationMethod) {
+			case 1:
+				// 1-1. 수동 검증 - Validator를 직접 생성 후, validator()를 직접 호출
+				UserValidator userValidator = new UserValidator();
+				userValidator.validate(user, br);	// BindingResult는 Errors의 자손이기 때문에 가능
+				
+				if (br.hasErrors()) return "registerForm";
+				break;
+				
+			case 2:
+				// 1-2. 자동 검증 - @InitBinder, @Valid
+				
+				if (br.hasErrors()) return "registerForm";
+				break;
+				
+			default:
+				// 1-3. 기존 방식
+				if (isValid(user).equals("r")) {
+					String msg = URLEncoder.encode("회원 가입 정보가 올바르지 않습니다.", "utf-8");
+//					m.addAttribute("msg", msg);
+//					return "redirect:/register/add";	// URL 재작성(rewriting)
+					// 위와 같이 model을 이용한 코드 작성 시
+					// 스프링이 자동으로 아래와 같은 쿼리스트링을 이용한 코드로 바꿔서 처리
+					// /register/save의 model은 /register/add로 redirect 된 이후 쓸수 없게 되기 때문
+					return "redirect:/register/add?msg="+msg;
+				} else if (isValid(user).equals("f")) {
+					return "forward:/register/add";
+				}
 		}
-		
+
 		// 2. DB에 신규회원 정보를 저장
-		
-		
+
 		return "registerInfo";
 	}
 
