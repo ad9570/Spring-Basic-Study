@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ page import="java.net.URLDecoder" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,11 +69,14 @@
     </style>
     <title>Register</title>
 </head>
+<c:url value='/register/save' var="url"/>
 <body>
-   <form action="<c:url value='/register/save'/>" method="post" onsubmit="return formCheck(this)">
+   <%-- <form action="<c:url value='/register/save'/>" method="post" onsubmit="return formCheck(this)"> --%>
+   <form:form modelAttribute="user" action="${url}">
     <div class="title">Register</div>
     <div id="msg" class="msg">
-    	<b>${URLDecoder.decode(param.msg, "utf-8")}</b>
+    	<%-- <b>${URLDecoder.decode(param.msg, "utf-8")}</b> --%>
+    	<form:errors path="id"/>
     </div> 
     <label for="">아이디</label>
     <input class="input-field" type="text" name="id" placeholder="8~12자리의 영대소문자와 숫자 조합">
@@ -91,7 +95,8 @@
     </div>
     <input id="now" type="hidden" name="join">
     <button>회원 가입</button>
-   </form> 
+   </form:form>
+   <%-- </form> --%>
    <script>
        function formCheck(frm) {
             var msg ='';

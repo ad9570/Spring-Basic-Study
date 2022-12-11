@@ -34,7 +34,7 @@ public class RegisterController {
 		binder.registerCustomEditor(String[].class, new StringArrayPropertyEditor("#"));
 		
 //		binder.setValidator(new UserValidator());	// UserValidator를 WebDataBinder의 로컬 Validator로 등록		
-		binder.addValidators(new UserValidator());	// setValidator() 사용 시 글로벌 Validator를 무시함
+//		binder.addValidators(new UserValidator());	// 로컬 Validator와 글로벌 Validator를 동시에 사용하는 방법
 		
 		List<Validator> validatorList = binder.getValidators();
 		System.out.println("validatorList = " + validatorList);
