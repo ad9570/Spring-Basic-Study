@@ -17,14 +17,14 @@ public class ExceptionController {
 		m.addAttribute("ex", e);
 		return "error";					// 컨트롤러 메서드와 마찬가지로 view 이름 반환
 	}
-	
+
 	@ExceptionHandler({NullPointerException.class, FileNotFoundException.class})
 	public String catcher2(Exception e, Model m) {
 		System.out.println("local catcher2(NullPointerException, FileNotFoundException)가 처리");
 		m.addAttribute("ex", e);
 		return "error";
 	}
-	
+
 	@RequestMapping("/ex1")
 	public void main1(Model m) throws Exception {
 		m.addAttribute("msg", "message from ExceptionController.main1()");
