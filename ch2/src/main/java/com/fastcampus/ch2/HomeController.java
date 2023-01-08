@@ -20,12 +20,12 @@ public class HomeController {
 	public String home(HttpServletRequest request, Model model) {
 		// getSession(true) : 세션이 없을 시 자동 생성(디폴트)
 		// getSession(false) : 세션이 없어도 생성하지 않음
-		boolean sessionNotExists = request.getSession(false) == null;
-		boolean sessionIdNotExists = true;
-		if (!sessionNotExists)
-			sessionIdNotExists = request.getSession(false).getAttribute("id") == null;
-		model.addAttribute("login", sessionIdNotExists ? "Login" : "Logout");
-		model.addAttribute("loginLink", sessionIdNotExists ? "/login/login" : "/login/logout");
+//		boolean sessionNotExists = request.getSession(false) == null;
+//		boolean sessionIdNotExists = true;
+//		if (!sessionNotExists)
+//			sessionIdNotExists = request.getSession(false).getAttribute("id") == null;
+//		model.addAttribute("login", sessionIdNotExists ? "Login" : "Logout");
+//		model.addAttribute("loginLink", sessionIdNotExists ? "/login/login" : "/login/logout");
 		return "index";
 	}
 	

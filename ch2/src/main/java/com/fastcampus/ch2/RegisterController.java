@@ -55,7 +55,7 @@ public class RegisterController {
 	public String save(@Valid User user, BindingResult br, Model m) throws UnsupportedEncodingException {
 		// BindingResult br : '바로 앞'의 객체인 User user를 바인딩. '위치에 주의'해야함.
 		System.out.println("BindingResult = " + br);
-		
+
 		int validationMethod = 2;
 		// 1. 유효성 검사(validator 혹은 기존 방식 선택)
 		switch (validationMethod) {
@@ -63,16 +63,16 @@ public class RegisterController {
 				// 1-1. 수동 검증 - Validator를 직접 생성 후, validator()를 직접 호출
 				UserValidator userValidator = new UserValidator();
 				userValidator.validate(user, br);	// BindingResult는 Errors의 자손이기 때문에 가능
-				
+
 				if (br.hasErrors()) return "registerForm";
 				break;
-				
+
 			case 2:
 				// 1-2. 자동 검증 - @InitBinder, @Valid
-				
+
 				if (br.hasErrors()) return "registerForm";
 				break;
-				
+
 			default:
 				// 1-3. 기존 방식
 				if (isValid(user).equals("r")) {

@@ -15,7 +15,7 @@ public class MethodCall2 {
 		// 1. DateTellerMVC의 객체를 생성
 		Class<?> clazz = Class.forName("com.fastcampus.ch2.DateTellerMVC");
 		Object obj = clazz.newInstance();
-		
+
 		// 2. main메서드의 정보를 가져온다
 		Method main = clazz.getDeclaredMethod("main", int.class, int.class, int.class, Model.class);
 		

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="false" %>
+<c:set var="loginLink" value="${pageContext.request.getSession(false).getAttribute('id') == null ? '/login/login' : '/login/logout'}"/>
+<c:set var="login" value="${pageContext.request.getSession(false).getAttribute('id') == null ? 'Login' : 'Logout'}"/>
 <!DOCTYPE html>
 <html>
 <head>
