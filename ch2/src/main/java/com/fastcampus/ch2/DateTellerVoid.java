@@ -9,28 +9,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 //년월일을 입력하면 요일을 알려주는 프로그램
 @Controller
-public class DateTellerVoid {	// http://localhost/ch2/getDateMVC?year=2022&month=9&day=8
+public class DateTellerVoid {    // http://localhost/ch2/getDateMVC?year=2022&month=9&day=8
 
-	@RequestMapping("/getDateVoid")
-	// 0. 입력
-	public void main(int year, int month, int day, Model m) throws IOException {
+    @RequestMapping("/getDateVoid")
+    // 0. 입력
+    public void main(int year, int month, int day, Model m) throws IOException {
 
-		// 1. 처리(작업)
-		char date = getDate(year, month, day);
-		
-		// 2. 계산한 결과를 Model에 저장
-		m.addAttribute("year", year);
-		m.addAttribute("month", month);
-		m.addAttribute("day", day);
-		m.addAttribute("date", date);
-	}
+        // 1. 처리(작업)
+        char date = getDate(year, month, day);
 
-	private char getDate(int year, int month, int day) {
-		Calendar cal = Calendar.getInstance();
-		cal.set(year, month - 1, day);
+        // 2. 계산한 결과를 Model에 저장
+        m.addAttribute("year", year);
+        m.addAttribute("month", month);
+        m.addAttribute("day", day);
+        m.addAttribute("date", date);
+    }
 
-		int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);	// 1:일요일, 2:월요일, ...
-		return " 일월화수목금토".charAt(dayOfWeek);
-	}
-	
+    private char getDate(int year, int month, int day) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(year, month - 1, day);
+
+        int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);    // 1:일요일, 2:월요일, ...
+        return " 일월화수목금토".charAt(dayOfWeek);
+    }
+
 }
