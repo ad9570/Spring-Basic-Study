@@ -22,7 +22,7 @@ public class Main1 {
 
     static Object getObject(String key) throws Exception {
         Properties p = new Properties();
-        p.load(new FileReader("config.txt"));
+        p.load(new FileReader("config1.txt"));
 
         Class<?> clazz = Class.forName(p.getProperty(key));
         return clazz.getDeclaredConstructor().newInstance();
@@ -30,7 +30,7 @@ public class Main1 {
 
 //    static Car getCar() throws Exception {
 //        Properties p = new Properties();
-//        p.load(new FileReader("config.txt"));
+//        p.load(new FileReader("config1.txt"));
 //
 //        Class<?> clazz = Class.forName(p.getProperty("car"));
 //        return (Car) clazz.getDeclaredConstructor().newInstance();
