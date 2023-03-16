@@ -1,7 +1,6 @@
 package com.fastcampus.ch3.diCopy2;
 
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -41,7 +40,7 @@ class AppContext {
 }
 
 public class Main2 {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         AppContext ac = new AppContext();
 
         Car car = (Car) ac.getBean("car");
