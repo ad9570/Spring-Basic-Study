@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="car" class="com.fastcampus.ch3.Car">      <!-- scope="singletone" : getBean 호출 시 항상 같은 객체 반환 -->
+        <property name="color" value="gray"/>               <!-- property : 각 iv 기반 -->
+        <property name="oil" value="gasolin"/>              <!-- 기본형, String : value로 값 연결, 기본형은 기본형으로 자동 변환 -->
+        <property name="engine" ref="engine"/>              <!-- String이 아닌 참조형 : ref로 참조 연결 -->
+        <property name="doors">
+            <array value-type="com.fastcampus.ch3.Door">    <!-- 배열 -->
+                <ref bean="door"/>
+                <ref bean="door"/>
+            </array>
+        </property>
+    </bean>
+    <bean id="sedan" class="com.fastcampus.ch3.Sedan">                  <!-- scope="singletone" 생략 -->
+        <constructor-arg name="color" value="black"/>       <!-- constructor-arg : 생성자 기반 -->
+        <constructor-arg name="oil" value="diesel"/>        <!-- 파라미터가 정확히 일치하는 생성자 필요 -->
+        <constructor-arg name="engine" ref="engine"/>
+        <constructor-arg name="doors">
+            <array value-type="com.fastcampus.ch3.Door">
+                <ref bean="door"/>
+                <ref bean="door"/>
+            </array>
+        </constructor-arg>
+    </bean>
+    <bean id="bus" class="com.fastcampus.ch3.Bus"/>         <!-- 기본 생성자 기반 -->
+    <bean id="engine" class="com.fastcampus.ch3.Engine"/>               <!-- scope="singletone" 생략 -->
+    <bean id="door" class="com.fastcampus.ch3.Door" scope="prototype"/> <!-- 매 getBean 호출마다 새로운 객체 반환 -->
+</beans>
