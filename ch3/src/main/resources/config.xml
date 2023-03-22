@@ -6,5 +6,6 @@
     <context:annotation-config/>
     <context:component-scan base-package="com.fastcampus.ch3">
         <context:exclude-filter type="regex" expression="com.fastcampus.ch3.diCopy*.*"/>
+        <context:exclude-filter type="regex" expression="com.fastcampus.ch3.HomeController"/>
     </context:component-scan>
 </beans>

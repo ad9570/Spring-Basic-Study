@@ -21,14 +21,24 @@ class SuperEngine extends EngineType {}
 
 @Component
 class Vehicle {
-    @Value("blue")
+//    @Value("blue")
     String color;
-    @Value("100")
+//    @Value("100")
     int oil;
-    @Autowired
+//    @Autowired
     EngineType engineType;
-    @Autowired
+//    @Autowired
     Seat[] seats;
+
+    public Vehicle() {}
+    @Autowired  // 다른 생성자가 없을 경우 생략 가능(기본적으로 자동주입)
+    public Vehicle(@Value("purple") String color, @Value("100") int oil, EngineType engineType, Seat[] seats) {
+        // 주입할 bean이 없는 String, 기본형 타입은 반드시 @Value로 값 주입 해줘야함
+        this.color = color;
+        this.oil = oil;
+        this.engineType = engineType;
+        this.seats = seats;
+    }
 
     @Override
     public String toString() {
