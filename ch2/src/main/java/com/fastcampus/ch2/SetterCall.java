@@ -1,6 +1,6 @@
 package com.fastcampus.ch2;
 
-//import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -72,8 +72,7 @@ public class SetterCall {
 
     // iv의 이름으로 setter의 이름을 만들어서 반환하는 메서드("day" -> "setDay")
     private static String getSetterName(String name) {
-//		return "set"+name.substring(0,1).toUpperCase()+name.substring(1);
-//        return "set" + StringUtils.capitalize(name);
-        return "set" + name;
+//		return "set" + name.substring(0, 1).toUpperCase() + name.substring(1);
+        return "set" + StringUtils.capitalize(name);
     }
 }

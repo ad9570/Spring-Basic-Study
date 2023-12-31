@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-//import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,8 +53,7 @@ public class LoginController {
         response.addCookie(cookie);
 
         // 원래 가려던 페이지로 이동
-//        return "redirect:" + StringUtils.defaultIfEmpty(toURL, "/");
-        return "redirect:" + "/";
+        return "redirect:" + StringUtils.defaultIfEmpty(toURL, "/");
     }
 
     @GetMapping("/logout")

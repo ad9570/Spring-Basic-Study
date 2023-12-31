@@ -16,7 +16,7 @@
 	<title>twoDice.jsp</title>
 </head>
 <body>
-	<img src='${pageContext.request.contextPath}/img/dice<%=idx1%>.jpg'>
-	<img src='${pageContext.request.contextPath}/img/dice<%=idx2%>.jpg'>
+	<img src='${pageContext.request.contextPath}/img/dice<%=idx1%>.jpg' alt="dice1">
+	<img src='${pageContext.request.contextPath}/img/dice<%=idx2%>.jpg' alt="dice2">
 </body>
 </html>
