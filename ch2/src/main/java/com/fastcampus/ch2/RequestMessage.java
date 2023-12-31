@@ -1,16 +1,18 @@
 package com.fastcampus.ch2;
 
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+@SuppressWarnings("all")
 @Controller
 public class RequestMessage {
     @RequestMapping("/requestMessage")
-    public void main(HttpServletRequest request) throws Exception {
+    public void reqMsg(HttpServletRequest request) throws Exception {
         // 요청의 헤더와 메시지까지 모두 출력해보기
         // 1. request line
         String requestLine = request.getMethod();       // GET 또는 POST
@@ -20,7 +22,6 @@ public class RequestMessage {
         requestLine += queryString == null ? "" : "?" + queryString;
         requestLine += " " + request.getProtocol();     // HTTP/1.1
         System.out.println(requestLine);
-
 
         // 2. request headers
         Enumeration<?> e = request.getHeaderNames();
@@ -41,7 +42,7 @@ public class RequestMessage {
             in.read(content, 0, CONTENT_LENGTH);
 
             System.out.println(); // empty line
-            System.out.println(new String(content, "utf-8")); // year=2021&month=10&day=1
-        }  // if
-    } // main
+            System.out.println(new String(content, StandardCharsets.UTF_8)); // year=2021&month=10&day=1
+        }
+    }
 }

@@ -14,8 +14,9 @@ public class BoardController {
     @GetMapping("/list")
     public String list(HttpServletRequest request) {
         // 로그인을 안했으면 로그인 화면으로
-        if (!logincheck(request))
+        if (!logincheck(request)) {
             return "redirect:/login/login?toURL=" + request.getRequestURL();
+        }
 
         // 로그인을 했으면 게시판 화면으로
         return "boardList";

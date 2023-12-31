@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class RequestHeader {
     @RequestMapping("/requestHeader")
-    public void main(HttpServletRequest request) {
-
+    public void reqHeader(HttpServletRequest request) {
         Enumeration<?> e = request.getHeaderNames();    // 요청한 헤더의 Iterator
 
         while (e.hasMoreElements()) {    // 요청한 헤더를 모두 출력

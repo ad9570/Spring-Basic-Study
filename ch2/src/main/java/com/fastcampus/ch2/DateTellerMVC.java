@@ -6,15 +6,13 @@ import java.util.Calendar;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.servlet.ModelAndView;
 
-//년월일을 입력하면 요일을 알려주는 프로그램
+// 년월일을 입력하면 요일을 알려주는 프로그램
 @Controller
-public class DateTellerMVC {    // http://localhost/ch2/getDateMVC?year=2022&month=9&day=8
-
+public class DateTellerMVC {    // http://localhost:8080/ch2/getDateMVC?year=2022&month=9&day=8
     @RequestMapping("/getDateMVC")
     // 0. 입력
-    public String main(int year, int month, int day, Model m) throws IOException {
+    public String getDate(int year, int month, int day, Model m) throws IOException {
 //	public ModelAndView main(int year, int month, int day) throws IOException {
 //		ModelAndView mv = new ModelAndView();
 
@@ -45,8 +43,9 @@ public class DateTellerMVC {    // http://localhost/ch2/getDateMVC?year=2022&mon
     }
 
     private boolean isValid(int year, int month, int day) {
-        if (year == -1 || month == -1 || day == -1)
+        if (year == -1 || month == -1 || day == -1) {
             return false;
+        }
         return (1 <= month && month <= 12) && (1 <= day && day <= 31);
     }
 
@@ -57,5 +56,4 @@ public class DateTellerMVC {    // http://localhost/ch2/getDateMVC?year=2022&mon
         int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);    // 1:일요일, 2:월요일, ...
         return " 일월화수목금토".charAt(dayOfWeek);
     }
-
 }

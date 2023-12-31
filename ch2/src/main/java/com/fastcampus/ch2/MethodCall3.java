@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -26,16 +26,16 @@ public class MethodCall3 {
         Object obj = clazz.getDeclaredConstructor().newInstance();
 
         // DateTellerMVC.main(int year, int month, int day, Model m)
-        Method main = clazz.getDeclaredMethod("main", int.class, int.class, int.class, Model.class);
+        Method main = clazz.getDeclaredMethod("getDate", int.class, int.class, int.class, Model.class);
 
-        /**** 객체 배열을 요청으로 넘어온 값에 따라 동적으로 구성 ****/
-        Parameter[] paramArr = main.getParameters();    // main메서드의 매개변수 목록
-        Object[] argArr = new Object[main.getParameterCount()];    // 매개변수 갯수와 같은 길이의 Object배열
+        /*==== 객체 배열을 요청으로 넘어온 값에 따라 동적으로 구성 ====*/
+        Parameter[] paramArr = main.getParameters();            // main메서드의 매개변수 목록
+        Object[] argArr = new Object[main.getParameterCount()]; // 매개변수 갯수와 같은 길이의 Object배열
 
         for (int i = 0; i < paramArr.length; i++) {
-            String paramName = paramArr[i].getName();    // 파라미터 이름
-            Class<?> paramType = paramArr[i].getType();    // 파라미터 타입
-            Object value = map.get(paramName); // map에서 파라미터를 찾아 value에 저장, 못찾으면 value는 null
+            String paramName = paramArr[i].getName();   // 파라미터 이름
+            Class<?> paramType = paramArr[i].getType(); // 파라미터 타입
+            Object value = map.get(paramName);          // map에서 파라미터를 찾아 value에 저장, 못찾으면 value는 null
 
             // paramType중에 Model타입이 있으면, Model을 생성 & 저장
             if (paramType == Model.class) {
@@ -47,7 +47,7 @@ public class MethodCall3 {
         }
         System.out.println("paramArr=" + Arrays.toString(paramArr));
         System.out.println("argArr=" + Arrays.toString(argArr));
-        /**** ------------------------------------------------- ****/
+        /*==== -------------------------------------------- ====*/
 
         // Controller의 main()을 호출 - DateTellerMVC.main(int year, int month, int day, Model m)
         String viewName = (String) main.invoke(obj, argArr);
@@ -58,15 +58,16 @@ public class MethodCall3 {
 
         // 텍스트 파일을 이용한 rendering
         render(model, viewName);
-    } // main
+    }
 
     // value = 요청을 통해 들어온 값, type = 컨트롤러에 지정된 파라미터 type
     private static Object convertTo(Object value, Class<?> type) {
-        if (type == null || value == null || type.isInstance(value)) // 타입이 같으면 그대로 반환
+        if (type == null || value == null || type.isInstance(value)) {  // 타입이 같으면 그대로 반환
             return value;
+        }
 
         // 타입이 다르면, 변환해서 반환
-		// String.class.isInstance(value) -> value instanceof String
+        // String.class.isInstance(value) -> value instanceof String
         if (value instanceof String && type == int.class) { // String -> int
             return Integer.valueOf((String) value);
         } else if (value instanceof String && type == double.class) { // String -> double
@@ -80,19 +81,21 @@ public class MethodCall3 {
         StringBuilder result = new StringBuilder();
 
         // 1. 뷰의 내용을 한줄씩 읽어서 하나의 문자열로 만든다.
-        Scanner sc = new Scanner(new File("src/main/webapp/WEB-INF/views/" + viewName + ".jsp"), "utf-8");
+        Scanner sc = new Scanner(new File("src/main/webapp/WEB-INF/views/" + viewName + ".jsp"), StandardCharsets.UTF_8);
 
-        while (sc.hasNextLine())
+        while (sc.hasNextLine()) {
             result.append(sc.nextLine()).append(System.lineSeparator());
+        }
 
         // 2. model을 map으로 변환
         Map<String, Object> map = model.asMap();
 
         // 3.key를 하나씩 읽어서 template의 ${key}를 value바꾼다.
 
-		// 4. replace()로 key를 value 치환한다.
-		for (String key : map.keySet())
-			result = new StringBuilder(result.toString().replace("${" + key + "}", "" + map.get(key)));
+        // 4. replace()로 key를 value 치환한다.
+        for (String key : map.keySet()) {
+            result = new StringBuilder(result.toString().replace("${" + key + "}", "" + map.get(key)));
+        }
 
         // 5.렌더링 결과를 출력한다.
         System.out.println(result);

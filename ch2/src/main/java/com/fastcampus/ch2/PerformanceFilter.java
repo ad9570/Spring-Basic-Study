@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
 // urlPatterns : 필터를 적용할 요청의 패턴 지정 - 모든 요청("/*")에 필터를 적용.
+@SuppressWarnings("all")
 @WebFilter(urlPatterns = "/*")
 public class PerformanceFilter implements Filter {
     @Override
@@ -20,8 +21,7 @@ public class PerformanceFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         // 1. 전처리 작업
         long startTime = System.currentTimeMillis();
 
@@ -40,5 +40,4 @@ public class PerformanceFilter implements Filter {
     public void destroy() {
         // 정리 작업
     }
-
 }

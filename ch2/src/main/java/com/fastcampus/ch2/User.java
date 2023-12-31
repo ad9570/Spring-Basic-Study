@@ -5,8 +5,8 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+@SuppressWarnings("unused")
 public class User {
-
     private String id;
     private String pwd;
     private String name;
@@ -77,5 +77,4 @@ public class User {
         return "User [id=" + id + ", pwd=" + pwd + ", name=" + name + ", hobby=" + Arrays.toString(hobby) +
                 ", birth=" + birth + ", sns=" + sns + ", join=" + join + "]";
     }
-
 }

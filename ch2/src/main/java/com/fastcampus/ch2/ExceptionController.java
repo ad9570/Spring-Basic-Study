@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class ExceptionController {
-
     // @ExceptionHandler : try - catch의 catch 블록 역할
     @ExceptionHandler(Exception.class)    // Exception : 모든 예외의 조상
     public String catcher1(Exception e, Model m) {    // Model : 컨트롤러의 Model과 다른 객체
@@ -32,13 +31,12 @@ public class ExceptionController {
     }
 
     @RequestMapping("/ex2")
-    public void main2() throws Exception {
+    public void main2() throws NullPointerException {
         throw new NullPointerException("NullPointerException이 발생했습니다.");
     }
 
     @RequestMapping("/ex3")
-    public void main3() throws Exception {
+    public void main3() throws FileNotFoundException {
         throw new FileNotFoundException("FileNotFoundException이 발생했습니다.");
     }
-
 }

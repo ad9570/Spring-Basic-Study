@@ -3,7 +3,7 @@ package com.fastcampus.ch2;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.Iterator;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -17,7 +17,7 @@ public class MethodCall2 {
         Object obj = clazz.getDeclaredConstructor().newInstance();
 
         // 2. main메서드의 정보를 가져온다
-        Method main = clazz.getDeclaredMethod("main", int.class, int.class, int.class, Model.class);
+        Method main = clazz.getDeclaredMethod("getDate", int.class, int.class, int.class, Model.class);
 
         // 3. Model을 생성
         // Model은 interface이기 때문에 그 구현체인 BindingAwareModelMap class를 통해 객체 생성
@@ -35,25 +35,27 @@ public class MethodCall2 {
 
         // 5. 텍스트 파일을 이용한 rendering
         render(model, viewName);
-    } // main
+    }
 
     static void render(Model model, String viewName) throws IOException {
         StringBuilder result = new StringBuilder();
 
         // 6. 뷰의 내용을 한줄씩 읽어서 하나의 문자열로 만든다. - jsp 이용
-        Scanner sc = new Scanner(new File("src/main/webapp/WEB-INF/views/" + viewName + ".jsp"), "utf-8");
+        Scanner sc = new Scanner(new File("src/main/webapp/WEB-INF/views/" + viewName + ".jsp"), StandardCharsets.UTF_8);
 
-        while (sc.hasNextLine())
+        while (sc.hasNextLine()) {
             result.append(sc.nextLine()).append(System.lineSeparator());
+        }
 
         // 7. model을 map으로 변환
         Map<String, Object> map = model.asMap();
 
         // 8.key를 하나씩 읽어서 template의 ${key}를 value바꾼다.
 
-		// 9. replace()로 key를 value 치환한다.
-		for (String key : map.keySet())
-			result = new StringBuilder(result.toString().replace("${" + key + "}", "" + map.get(key)));
+        // 9. replace()로 key를 value 치환한다.
+        for (String key : map.keySet()) {
+            result = new StringBuilder(result.toString().replace("${" + key + "}", "" + map.get(key)));
+        }
 
         // 10. 렌더링 결과를 출력한다.
         System.out.println(result);

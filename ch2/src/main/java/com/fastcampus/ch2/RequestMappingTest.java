@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class RequestMappingTest {
     //  @RequestMapping({"/login/hello.do", "/login/hi.do"})
-    @RequestMapping("/login/hello.do") // http://localhost/ch2/login/hello.do
+    @RequestMapping("/login/hello.do") // http://localhost:8080/ch2/login/hello.do
     public void test1() {
         System.out.println("urlpattern=/login/hello.do");
     }

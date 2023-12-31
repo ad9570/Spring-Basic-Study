@@ -3,7 +3,6 @@ package com.fastcampus.ch2;
 import java.lang.reflect.Method;
 
 public class PrivateMethodCall {
-
     public static void main(String[] args) throws Exception {
 //		Hello hello = new Hello();
 //		hello.main3();	// private라서 호출 불가
@@ -19,5 +18,4 @@ public class PrivateMethodCall {
 
         main3.invoke(hello);    // hello.main3();
     }
-
 }

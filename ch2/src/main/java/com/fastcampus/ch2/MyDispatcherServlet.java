@@ -3,10 +3,9 @@ package com.fastcampus.ch2;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Serial;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.util.Iterator;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -19,13 +18,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.support.BindingAwareModelMap;
 
 // @WebServlet = @Controller + @RequestMapping(서블릿은 메서드 단위가 아닌 클래스 단위 맵핑만 가능)
-@WebServlet("/myDispatcherServlet")  // http://localhost/ch2/myDispatcherServlet?year=2021&month=9&day=8
+@WebServlet("/myDispatcherServlet")  // http://localhost:8080/ch2/myDispatcherServlet?year=2021&month=9&day=8
 public class MyDispatcherServlet extends HttpServlet {
-    /**
-     *
-     */
-    @Serial
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Override
     public void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -38,7 +33,7 @@ public class MyDispatcherServlet extends HttpServlet {
             Object obj = clazz.getDeclaredConstructor().newInstance();
 
             // 1. main메서드의 정보를 얻는다.
-            Method main = clazz.getDeclaredMethod("main", int.class, int.class, int.class, Model.class);
+            Method main = clazz.getDeclaredMethod("getDate", int.class, int.class, int.class, Model.class);
 
             // 2. main메서드의 매개변수 목록(paramArr)을 읽어서 메서드 호출에 사용할 인자 목록(argArr)을 만든다.
             Parameter[] paramArr = main.getParameters();
@@ -67,16 +62,17 @@ public class MyDispatcherServlet extends HttpServlet {
             // 3. Controller의 main()을 호출 - YoilTellerMVC.main(int year, int month, int day, Model model)
             viewName = (String) main.invoke(obj, argArr);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
         // 4. 텍스트 파일을 이용한 rendering
         render(model, viewName, response);
-    } // main
+    }
 
     private Object convertTo(Object value, Class<?> type) {
-        if (type == null || value == null || type.isInstance(value)) // 타입이 같으면 그대로 반환
+        if (type == null || value == null || type.isInstance(value)) {  // 타입이 같으면 그대로 반환
             return value;
+        }
 
         // 타입이 다르면, 변환해서 반환
         if (value instanceof String && type == int.class) { // String -> int
@@ -101,19 +97,21 @@ public class MyDispatcherServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         // 1. 뷰의 내용을 한줄씩 읽어서 하나의 문자열로 만든다.
-        Scanner sc = new Scanner(new File(getResolvedViewName(viewName)), "utf-8");
+        Scanner sc = new Scanner(new File(getResolvedViewName(viewName)), StandardCharsets.UTF_8);
 
-        while (sc.hasNextLine())
+        while (sc.hasNextLine()) {
             result.append(sc.nextLine()).append(System.lineSeparator());
+        }
 
         // 2. model을 map으로 변환
         Map<String, Object> map = model.asMap();
 
         // 3.key를 하나씩 읽어서 template의 ${key}를 value바꾼다.
 
-		// 4. replace()로 key를 value 치환한다.
-		for (String key : map.keySet())
-			result = new StringBuilder(result.toString().replace("${" + key + "}", map.get(key) + ""));
+        // 4. replace()로 key를 value 치환한다.
+        for (String key : map.keySet()) {
+            result = new StringBuilder(result.toString().replace("${" + key + "}", map.get(key) + ""));
+        }
 
         // 5.렌더링 결과를 출력한다.
         out.println(result);

@@ -8,20 +8,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-//년월일을 입력하면 요일을 알려주는 프로그램
+// 년월일을 입력하면 요일을 알려주는 프로그램
 @Controller
-public class DateTellerMVC4 {    // http://localhost/ch2/getDateMVC4?year=2022&month=9&day=15
-
+public class DateTellerMVC4 {    // http://localhost:8080/ch2/getDateMVC4?year=2022&month=9&day=15
     @ExceptionHandler(Exception.class)
     public String catcher(Exception ex) {
-        ex.printStackTrace();
+        System.out.println(ex.getMessage());
         return "dateError";
     }
 
     @RequestMapping("/getDateMVC4")
     // 0. 입력
-    public String main(MyDate myDate, Model m) throws IOException {
-
+    public String getDate(MyDate myDate, Model m) throws IOException {
         // 1. 유효성 검사
         if (!isValid(myDate)) {
             return "dateError";
@@ -43,8 +41,9 @@ public class DateTellerMVC4 {    // http://localhost/ch2/getDateMVC4?year=2022&m
     }
 
     private boolean isValid(int year, int month, int day) {
-        if (year == -1 || month == -1 || day == -1)
+        if (year == -1 || month == -1 || day == -1) {
             return false;
+        }
         return (1 <= month && month <= 12) && (1 <= day && day <= 31);
     }
 
@@ -59,5 +58,4 @@ public class DateTellerMVC4 {    // http://localhost/ch2/getDateMVC4?year=2022&m
         int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);    // 1:일요일, 2:월요일, ...
         return " 일월화수목금토".charAt(dayOfWeek);
     }
-
 }

@@ -1,9 +1,6 @@
 package com.fastcampus.ch2;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -12,13 +9,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller        // 1. 원격 호출 가능한 프로그램으로 등록
 public class HomeController {
-
     /**
      * Simply selects the home view to render by returning its name.
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)    // 2. URL과 메서드 연결(맵핑, mapping)
-    public String home(HttpServletRequest request, Model model) {
+    public String home() {
         return "index";
     }
-
 }

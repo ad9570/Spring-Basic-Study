@@ -7,14 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-//년월일을 입력하면 요일을 알려주는 프로그램
+@SuppressWarnings("unused")
+// 년월일을 입력하면 요일을 알려주는 프로그램
 @Controller
-public class DateTellerToMVC {    // http://localhost/ch2/getDateToMVC?year=2022&month=9&day=8
-
+public class DateTellerToMVC {    // http://localhost:8080/ch2/getDateToMVC?year=2022&month=9&day=8
     @RequestMapping("/getDateToMVC")
-//	public void main(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//	public void getDate(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // 0. 입력
-    public String main(int year, int month, int day, Model m) throws IOException {
+    public String getDate(int year, int month, int day, Model m) throws IOException {
 //      String year = request.getParameter("year");
 //      String month = request.getParameter("month");
 //      String day = request.getParameter("day");
@@ -24,8 +24,9 @@ public class DateTellerToMVC {    // http://localhost/ch2/getDateToMVC?year=2022
 //      int dd = Integer.parseInt(day);
 
         // 1. 유효성 검사
-        if (!isValid(year, month, day))
+        if (!isValid(year, month, day)) {
             return "dateError";
+        }
 
         // 2. 처리(작업)
         char date = getDate(year, month, day);
@@ -40,7 +41,7 @@ public class DateTellerToMVC {    // http://localhost/ch2/getDateToMVC?year=2022
         return "date";    // /WEB-INF/views/date.jsp
 //      response.setContentType("text/html");    // 응답의 형식을 html로 지정
 //      response.setCharacterEncoding("utf-8");  // 응답의 인코딩을 utf-8로 지정
-//      
+//
 //      PrintWriter out = response.getWriter();  // 브라우저로의 출력 스트림(out)을 얻는다.
 //      out.println("<html>");
 //      out.println("<head>");
@@ -64,5 +65,4 @@ public class DateTellerToMVC {    // http://localhost/ch2/getDateToMVC?year=2022
         int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);    // 1:일요일, 2:월요일, ...
         return " 일월화수목금토".charAt(dayOfWeek);
     }
-
 }
