@@ -1,3 +1,0 @@
-#car=com.fastcampus.ch3.diCopy2.SportsCar
-car=com.fastcampus.ch3.diCopy2.Truck
-engine=com.fastcampus.ch3.diCopy2.Engine
