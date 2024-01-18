@@ -24,6 +24,7 @@ public class DBConnectionTest3Test {
     @Test
     public void insertUserTest() throws SQLException {
         Calendar cal = Calendar.getInstance();
+        cal.clear();
         cal.set(1995, 4, 25);
         User user = new User("zxcv2", "9090", "who", "ad9570@daum.net", cal.getTime(), "twitter");
 
