@@ -22,6 +22,67 @@ public class DBConnectionTest3Test {
     DataSource ds;
 
     @Test
+    public void transactionTest() {
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.set(2000, 0, 1);
+
+        int seq = 0, result;
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = ds.getConnection();
+            conn.setAutoCommit(false);  // autocommit 기본값 : true
+
+            String sql = "INSERT INTO user_info VALUES (?, ?, ?, ?, ?, ?, now())";
+            pstmt = conn.prepareStatement(sql);
+
+            System.out.println("▶▶ transaction 실행 시작");
+
+            pstmt.setString(1, "iiii");
+            pstmt.setString(2, "7777");
+            pstmt.setString(3, "yyyy");
+            pstmt.setString(4, "narris64@gmail.com");
+            pstmt.setDate(5, new java.sql.Date(cal.getTimeInMillis()));
+            pstmt.setString(6, "instagram");
+            result = pstmt.executeUpdate();
+            System.out.println("[" + ++seq + "] inserted row(s) count : " + result);
+
+            pstmt.setString(1, "iiii");
+            result = pstmt.executeUpdate();
+            System.out.println("[" + ++seq + "] inserted row(s) count : " + result);
+
+            conn.commit();
+            System.out.println("▶▶ commit 성공");
+        } catch (SQLException te) {
+            try {
+                System.out.println("▶▶ transaction 실행 중 오류 발생 : " + te.getMessage());
+
+                if (conn != null) {
+                    conn.rollback();
+                    System.out.println("▶▶ rollback 성공");
+                }
+            } catch (SQLException re) {
+                System.out.println("▶▶ rollback 중 오류 발생 : " + re.getMessage());
+            }
+        } finally {
+            try {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException fe) {
+                System.out.println("▶▶ 후처리 중 오류 발생 : " + fe.getMessage());
+            }
+        }
+    }
+
+    @Test
     public void insertUserTest() throws SQLException {
         Calendar cal = Calendar.getInstance();
         cal.clear();
