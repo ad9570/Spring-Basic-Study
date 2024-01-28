@@ -182,7 +182,9 @@ public class UserDaoImpl implements UserDao {
     private void close(AutoCloseable... acs) {
         for (AutoCloseable ac : acs)
             try {
-                if (ac != null) ac.close();
+                if (ac != null) {
+                    ac.close();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
