@@ -25,10 +25,30 @@ public class TmpDaoTest {
     @Autowired
     TmpDao tmpDao;
 
+    @Autowired
+    DataSourceTransactionManager tm;
+
     @Test
-    public void insert() {
+    public void insertWithDeclaredTm() {
         // TxManager 생성 - 시작
         PlatformTransactionManager tm = new DataSourceTransactionManager(ds);
+        TransactionStatus status = tm.getTransaction(new DefaultTransactionDefinition());
+
+        try {
+            tmpDao.insert(8, 800);
+            tmpDao.insert(8, 800);
+            // 성공 : 커밋 - Tx 종료
+            tm.commit(status);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            // 실패 : 롤백 - Tx 종료
+            tm.rollback(status);
+        }
+    }
+
+    @Test
+    public void insertWithInfusedTm() {
+        // TxManager 생성 - 시작
         TransactionStatus status = tm.getTransaction(new DefaultTransactionDefinition());
 
         try {

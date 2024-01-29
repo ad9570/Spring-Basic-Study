@@ -10,17 +10,16 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 @Repository
-public class TmpDao {
+public class DummyDao {
     @Autowired
     DataSource ds;
 
     public void insert(int a, int b) throws SQLException {
         Connection conn = DataSourceUtils.getConnection(ds);
-        PreparedStatement pstmt = conn.prepareStatement("INSERT INTO tmp_tx VALUES (?, ?)");
+        PreparedStatement pstmt = conn.prepareStatement("INSERT INTO dummy_tx VALUES (?, ?)");
         pstmt.setInt(1, a);
         pstmt.setInt(2, b);
 
-        System.out.println("conn = " + conn);
         pstmt.executeUpdate();
 
         close(pstmt);
