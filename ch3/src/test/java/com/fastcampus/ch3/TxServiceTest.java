@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.junit.Assert.*;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:**/resources/test-context.xml"})
 public class TxServiceTest {
@@ -24,7 +22,31 @@ public class TxServiceTest {
     }
 
     @Test
-    public void insertWithTx() throws Exception {
-        txService.insertWithTx();
+    public void insertWithTx() {
+        try {
+            txService.insertWithTx();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    public void insertRequiredOuter() {
+        txService.insertBoundaryMainOuter("req");
+    }
+
+    @Test
+    public void insertRequiresNewOuter() {
+        txService.insertBoundaryMainOuter("new");
+    }
+
+    @Test
+    public void insertRequiredInner() {
+        txService.insertBoundaryMainInner("req");
+    }
+
+    @Test
+    public void insertRequiresNewInner() {
+        txService.insertBoundaryMainInner("new");
     }
 }

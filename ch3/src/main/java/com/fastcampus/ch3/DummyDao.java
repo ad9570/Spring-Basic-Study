@@ -20,6 +20,7 @@ public class DummyDao {
         pstmt.setInt(1, a);
         pstmt.setInt(2, b);
 
+        System.out.println("conn = " + conn);
         pstmt.executeUpdate();
 
         close(pstmt);
