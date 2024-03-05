@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="loginId" value="${pageContext.request.getSession(false) == null ? '' : pageContext.request.session.getAttribute('id')}"/>
 <c:set var="loginOutLink" value="${empty loginId ? '/login/login' : '/login/logout'}"/>
@@ -22,6 +22,7 @@
     </ul>
 </div>
 <div style="text-align: center">
+    <button type="button" id="writePost">글쓰기</button>
     <table border="1" style="width: 100%">
         <colgroup>
             <col width="4">
@@ -38,13 +39,13 @@
                 <th>등록일</th>
                 <th>조회수</th>
             </tr>
-            <c:forEach var="board" items="${boardList}">
+            <c:forEach var="boardDto" items="${boardList}">
                 <tr>
-                    <td>${board.bno}</td>
-                    <td>${board.title}</td>
-                    <td>${board.writer}</td>
-                    <td>${board.regDate}</td>
-                    <td>${board.viewCnt}</td>
+                    <td>${boardDto.bno}</td>
+                    <td><a href="<c:url value='/board/read?bno=${boardDto.bno}&page=${pageHandler.page}&pageSize=${pageHandler.pageSize}'/>">${boardDto.title}</a></td>
+                    <td>${boardDto.writer}</td>
+                    <td>${boardDto.regDate}</td>
+                    <td>${boardDto.viewCnt}</td>
                 </tr>
             </c:forEach>
             <c:if test="${!empty errorMsg}">
@@ -67,5 +68,23 @@
         </c:if>
     </div>
 </div>
+<script>
+    let resultMsg = '${resultMsg}';
+    if (resultMsg === 'delSuccess') {
+        alert('삭제 성공');
+    } else if (resultMsg === 'delFail') {
+        alert('삭제 실패');
+    } else if (resultMsg === 'wrtSuccess') {
+        alert('등록 성공');
+    } else if (resultMsg === 'uptSuccess') {
+        alert('수정 성공');
+    }
+
+    window.onload = function () {
+        document.getElementById('writePost').addEventListener('click', function () {
+            location.href = '<c:url value="/board/write?page=${pageHandler.page}&pageSize=${pageHandler.pageSize}"/>';
+        });
+    };
+</script>
 </body>
 </html>

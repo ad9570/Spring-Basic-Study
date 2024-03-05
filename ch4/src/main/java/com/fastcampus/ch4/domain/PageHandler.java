@@ -13,8 +13,6 @@ public class PageHandler {
     private Boolean showNext;   // 다음 내비게이션 페이지로 이동 가능
 
     public PageHandler() {
-        pageSize = 10;
-        page = 1;
     }
     public PageHandler(Integer totalCnt, Integer pageSize, Integer page) {
         this.totalCnt = totalCnt;
