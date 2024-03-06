@@ -6,6 +6,7 @@ import org.junit.runner.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.test.context.*;
 import org.springframework.test.context.junit4.*;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 
@@ -221,5 +222,30 @@ public class BoardDaoImplTest {
         boardDto = boardDao.selectPost(bno);
         assertNotNull(boardDto);
         assertEquals(2, boardDto.getViewCnt());
+    }
+
+    @Test
+    public void searchTest() throws Exception {
+        String keyword = "title1";
+        Integer pageSize = 10;
+        SearchOption searchOption = new SearchOption(1, pageSize, keyword, "T");
+
+        int postCnt = boardDao.searchPostCnt(searchOption);
+        System.out.println("postCnt = " + postCnt);
+
+        int postSeq = 0;
+        List<BoardDto> postList = boardDao.searchPostList(searchOption);
+        while (!CollectionUtils.isEmpty(postList)) {
+            for (BoardDto post : postList) {
+                assertTrue(post.getTitle().contains(keyword));
+                postSeq++;
+            }
+
+            searchOption.setPage(searchOption.getPage() + 1);
+            searchOption.setOffset(searchOption.getOffset() + pageSize);
+            postList = boardDao.searchPostList(searchOption);
+        }
+
+        assertEquals(postCnt, postSeq);
     }
 }

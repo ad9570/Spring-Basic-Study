@@ -72,4 +72,22 @@
             SET view_cnt = view_cnt + 1
         WHERE bno = #{bno}
     </update>
+
+    <select id="searchPostList" parameterType="searchOption" resultType="boardDto">
+        <include refid="selectFromBoard"/>
+        WHERE true
+            AND title LIKE '%' || #{keyword} || '%'
+        ORDER BY reg_date DESC, bno DESC
+        <if test="offset != 0">
+            OFFSET #{offset} ROWS
+        </if>
+        FETCH NEXT #{pageSize} ROWS ONLY
+    </select>
+
+    <select id="searchPostCnt" parameterType="searchOption" resultType="int">
+        SELECT count(*)
+        FROM board
+        WHERE true
+        AND title LIKE '%' || #{keyword} || '%'
+    </select>
 </mapper>

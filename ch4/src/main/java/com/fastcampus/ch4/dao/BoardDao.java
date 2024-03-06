@@ -1,6 +1,7 @@
 package com.fastcampus.ch4.dao;
 
 import com.fastcampus.ch4.domain.BoardDto;
+import com.fastcampus.ch4.domain.SearchOption;
 
 import java.util.List;
 import java.util.Map;
@@ -25,4 +26,8 @@ public interface BoardDao {
     int updateCommentCnt(Map<String, Integer> commentCnt) throws Exception;
 
     int increaseViewCnt(Integer bno) throws Exception;
+
+    List<BoardDto> searchPostList(SearchOption searchOption) throws Exception;
+
+    Integer searchPostCnt(SearchOption searchOption) throws Exception;
 }
