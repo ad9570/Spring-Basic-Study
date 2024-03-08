@@ -15,6 +15,21 @@
         FROM board
     </sql>
 
+    <sql id="whereSearchOption">
+        WHERE true
+            <choose>
+                <when test='field=="T"'>
+                    AND title LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test='field=="W"'>
+                    AND writer LIKE '%' || #{keyword} || '%'
+                </when>
+                <otherwise>
+                    AND (title LIKE '%' || #{keyword} || '%' OR content LIKE '%' || #{keyword} || '%')
+                </otherwise>
+            </choose>
+    </sql>
+
     <select id="selectPost" parameterType="int" resultType="boardDto">
         <include refid="selectFromBoard"/>
         WHERE bno = #{bno}
@@ -75,8 +90,7 @@
 
     <select id="searchPostList" parameterType="searchOption" resultType="boardDto">
         <include refid="selectFromBoard"/>
-        WHERE true
-            AND title LIKE '%' || #{keyword} || '%'
+        <include refid="whereSearchOption"/>
         ORDER BY reg_date DESC, bno DESC
         <if test="offset != 0">
             OFFSET #{offset} ROWS
@@ -87,7 +101,6 @@
     <select id="searchPostCnt" parameterType="searchOption" resultType="int">
         SELECT count(*)
         FROM board
-        WHERE true
-        AND title LIKE '%' || #{keyword} || '%'
+        <include refid="whereSearchOption"/>
     </select>
 </mapper>

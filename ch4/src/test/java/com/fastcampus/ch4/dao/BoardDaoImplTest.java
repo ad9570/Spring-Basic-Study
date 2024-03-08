@@ -18,7 +18,7 @@ public class BoardDaoImplTest {
     @Autowired
     private BoardDao boardDao;
 
-    private final String WRITER = "zxcv";
+    private final String WRITER = "qwer";
 
     @Test
     public void countTest() throws Exception {
@@ -226,26 +226,40 @@ public class BoardDaoImplTest {
 
     @Test
     public void searchTest() throws Exception {
-        String keyword = "title1";
-        Integer pageSize = 10;
-        SearchOption searchOption = new SearchOption(1, pageSize, keyword, "T");
+        List<SearchOption> searchOptions = new ArrayList<>();
 
-        int postCnt = boardDao.searchPostCnt(searchOption);
-        System.out.println("postCnt = " + postCnt);
+        searchOptions.add(new SearchOption(1, 10, "title1", "T"));
+        searchOptions.add(new SearchOption(1, 10, "zxcv", "W"));
+        searchOptions.add(new SearchOption(1, 10, "content1", ""));
 
-        int postSeq = 0;
-        List<BoardDto> postList = boardDao.searchPostList(searchOption);
-        while (!CollectionUtils.isEmpty(postList)) {
-            for (BoardDto post : postList) {
-                assertTrue(post.getTitle().contains(keyword));
-                postSeq++;
+        for (SearchOption searchOption : searchOptions) {
+            int postCnt = boardDao.searchPostCnt(searchOption);
+            System.out.println("postCnt = " + postCnt);
+
+            int postSeq = 0;
+            List<BoardDto> postList = boardDao.searchPostList(searchOption);
+            while (!CollectionUtils.isEmpty(postList)) {
+                for (BoardDto post : postList) {
+                    boolean hasTitle = post.getTitle().contains(searchOption.getKeyword());
+                    boolean hasWriter = post.getWriter().contains(searchOption.getKeyword());
+                    boolean hasContent = post.getContent().contains(searchOption.getKeyword());
+
+                    if ("T".equals(searchOption.getField())) {
+                        assertTrue(hasTitle);
+                    } else if ("W".equals(searchOption.getField())) {
+                        assertTrue(hasWriter);
+                    } else {
+                        assertTrue(hasTitle || hasContent);
+                    }
+
+                    postSeq++;
+                }
+
+                searchOption.setPage(searchOption.getPage() + 1);
+                postList = boardDao.searchPostList(searchOption);
             }
 
-            searchOption.setPage(searchOption.getPage() + 1);
-            searchOption.setOffset(searchOption.getOffset() + pageSize);
-            postList = boardDao.searchPostList(searchOption);
+            assertEquals(postCnt, postSeq);
         }
-
-        assertEquals(postCnt, postSeq);
     }
 }

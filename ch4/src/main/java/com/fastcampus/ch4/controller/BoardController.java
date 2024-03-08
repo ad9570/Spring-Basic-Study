@@ -2,6 +2,7 @@ package com.fastcampus.ch4.controller;
 
 import com.fastcampus.ch4.domain.BoardDto;
 import com.fastcampus.ch4.domain.PageHandler;
+import com.fastcampus.ch4.domain.SearchOption;
 import com.fastcampus.ch4.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,9 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/board")
@@ -24,31 +23,27 @@ public class BoardController {
     BoardService boardService;
 
     @GetMapping("/list")
-    public String list(HttpServletRequest request, Model model, PageHandler pageHandler) {
+    public String list(HttpServletRequest request, Model model, SearchOption searchOption) {
         if (!loginCheck(request)) {
             return "redirect:/login/login?toURL=" + request.getRequestURL();
         }
 
         try {
+            // navigator
+            int totalCnt = boardService.getSearchResultCnt(searchOption);
+            PageHandler navi = new PageHandler(totalCnt, searchOption);
+            model.addAttribute("navi", navi);
+
             // page
-            int currPage = pageHandler.getPage() == null ? 1 : pageHandler.getPage();
-            int pageSize = pageHandler.getPageSize() == null ? 10 : pageHandler.getPageSize();
-            int totalCnt = boardService.getCount();
-            pageHandler.setPage(Math.max(1, currPage));
-            pageHandler.setPage(Math.min(totalCnt, currPage));
-            int destPage = pageHandler.getPage();
+            int currPage = searchOption.getPage() == null ? 1 : searchOption.getPage();
+            int pageSize = searchOption.getPageSize() == null ? 10 : searchOption.getPageSize();
+            searchOption.setPage(Math.max(1, currPage));                    // 1페이지보다 작을 경우 1페이지로 보정
+            searchOption.setPage(Math.min(navi.getTotalPage(), currPage));  // 마지막페이지보다 클 경우 마지막페이지로 보정
+            searchOption.setPageSize(pageSize);
 
             // posts
-            Map<String, Integer> pageInfo = new HashMap<>();
-            pageInfo.put("offset", (destPage - 1) * pageSize);
-            pageInfo.put("pageSize", pageSize);
-
-            List<BoardDto> boardList = boardService.getPage(pageInfo);
+            List<BoardDto> boardList = boardService.getSearchResultPage(searchOption);
             model.addAttribute("boardList", boardList);
-
-            // navigator
-            PageHandler navi = new PageHandler(totalCnt, pageSize, destPage);
-            model.addAttribute("navi", navi);
         } catch (Exception e) {
             model.addAttribute("errorMsg", e.getMessage());
         }
@@ -70,7 +65,7 @@ public class BoardController {
     }
 
     @PostMapping("/remove")
-    public String remove(BoardDto boardDto, PageHandler pageHandler, HttpSession session, RedirectAttributes attributes) {
+    public String remove(BoardDto boardDto, SearchOption searchOption, HttpSession session, RedirectAttributes attributes) {
         try {
             String writer = (String) session.getAttribute("id");
             boardDto.setWriter(writer);
@@ -87,8 +82,8 @@ public class BoardController {
             attributes.addFlashAttribute("resultMsg", "delFail");
         }
 
-        Integer page = pageHandler.getPage();
-        Integer pageSize = pageHandler.getPageSize();
+        Integer page = searchOption.getPage();
+        Integer pageSize = searchOption.getPageSize();
 
         return "redirect:/board/list?page=" + page + "&pageSize=" + pageSize;
     }
@@ -123,7 +118,7 @@ public class BoardController {
     }
 
     @PostMapping("/modify")
-    public String modify(BoardDto boardDto, PageHandler pageHandler, Model model, HttpSession session, RedirectAttributes attributes) {
+    public String modify(BoardDto boardDto, SearchOption searchOption, Model model, HttpSession session, RedirectAttributes attributes) {
         try {
             String writer = (String) session.getAttribute("id");
             boardDto.setWriter(writer);
@@ -135,8 +130,8 @@ public class BoardController {
                 throw new Exception("Save failed.");
             }
 
-            Integer page = pageHandler.getPage();
-            Integer pageSize = pageHandler.getPageSize();
+            Integer page = searchOption.getPage();
+            Integer pageSize = searchOption.getPageSize();
 
             return "redirect:/board/list?page=" + page + "&pageSize=" + pageSize;
         } catch (Exception e) {

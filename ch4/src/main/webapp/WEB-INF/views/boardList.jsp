@@ -1,14 +1,17 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="loginId" value="${pageContext.request.getSession(false) == null ? '' : pageContext.request.session.getAttribute('id')}"/>
 <c:set var="loginOutLink" value="${empty loginId ? '/login/login' : '/login/logout'}"/>
 <c:set var="loginOut" value="${empty loginId ? 'Login' : 'ID='+=loginId}"/>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>fastcampus</title>
-    <link rel="stylesheet" href="<c:url value='/css/menu.css'/>">
+<meta charset="UTF-8">
+<title>fastcampus</title>
+<link rel="stylesheet" href="<c:url value='/css/menu.css'/>"/>
+<link rel="stylesheet" href="<c:url value='/css/board-list.css'/>"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 </head>
 <body>
 <div id="menu">
@@ -18,54 +21,78 @@
         <li><a href="<c:url value='/board/list'/>">Board</a></li>
         <li><a href="<c:url value='${loginOutLink}'/>">${loginOut}</a></li>
         <li><a href="<c:url value='/register/add'/>">Sign in</a></li>
-        <li><a href=""><i class="fas fa-search small"></i></a></li>
+        <li><a href=""><i class="fa fa-search"></i></a></li>
     </ul>
 </div>
 <div style="text-align: center">
-    <button type="button" id="writePost">글쓰기</button>
-    <table border="1" style="width: 100%">
-        <colgroup>
-            <col width="4">
-            <col width="45">
-            <col width="15">
-            <col width="30">
-            <col width="5">
-        </colgroup>
-        <tbody>
-            <tr>
-                <th>번호</th>
-                <th>제목</th>
-                <th>이름</th>
-                <th>등록일</th>
-                <th>조회수</th>
-            </tr>
-            <c:forEach var="boardDto" items="${boardList}">
+    <div class="board-container">
+        <div class="search-container">
+            <form action="<c:url value="/board/list"/>" class="search-form" method="get">
+                <select class="search-option" name="field">
+                    <option value="A" ${searchOption.field eq 'A' || searchOption.field eq '' ? 'selected' : ''}>제목+내용</option>
+                    <option value="T" ${searchOption.field eq 'T' ? 'selected' : ''}>제목만</option>
+                    <option value="W" ${searchOption.field eq 'W' ? 'selected' : ''}>작성자</option>
+                </select>
+
+                <input type="text" name="keyword" class="search-input" value="${searchOption.keyword}" placeholder="검색어를 입력해주세요"/>
+                <input type="submit" class="search-button" value="검색"/>
+            </form>
+            <button id="writePost" class="btn-write"><i class="fa fa-pencil"></i> 글쓰기</button>
+        </div>
+
+        <table>
+            <tbody>
                 <tr>
-                    <td>${boardDto.bno}</td>
-                    <td><a href="<c:url value='/board/read?bno=${boardDto.bno}&page=${pageHandler.page}&pageSize=${pageHandler.pageSize}'/>">${boardDto.title}</a></td>
-                    <td>${boardDto.writer}</td>
-                    <td>${boardDto.regDate}</td>
-                    <td>${boardDto.viewCnt}</td>
+                    <th class="no">번호</th>
+                    <th class="title">제목</th>
+                    <th class="writer">이름</th>
+                    <th class="regdate">등록일</th>
+                    <th class="viewcnt">조회수</th>
                 </tr>
-            </c:forEach>
-            <c:if test="${!empty errorMsg}">
-                <tr>
-                    <td colspan="5" style="color: red">SYSTEM ERROR!! : ${errorMsg}</td>
-                </tr>
-            </c:if>
-        </tbody>
-    </table>
-    <br/>
-    <div>
-        <c:if test="${navi.showPrev}">
-            <a href="<c:url value='/board/list?page=${navi.beginPage - 1}&pageSize=${navi.pageSize}'/>">◀</a>
-        </c:if>
-        <c:forEach var="i" begin="${navi.beginPage}" end="${navi.endPage}">
-            <a href="<c:url value='/board/list?page=${i}&pageSize=${navi.pageSize}'/>">${i}</a>
-        </c:forEach>
-        <c:if test="${navi.showNext}">
-            <a href="<c:url value='/board/list?page=${navi.endPage + 1}&pageSize=${navi.pageSize}'/>">▶</a>
-        </c:if>
+                <c:forEach var="boardDto" items="${boardList}">
+                    <tr>
+                        <td class="no">${boardDto.bno}</td>
+                        <td class="title"><a href="<c:url value="/board/read${searchOption.queryString}&bno=${boardDto.bno}"/>"><c:out value="${boardDto.title}"/></a></td>
+                        <td class="writer">${boardDto.writer}</td>
+                        <c:choose>
+                            <c:when test="${boardDto.regDate.time >= startOfToday}">
+                                <td class="regdate"><fmt:formatDate value="${boardDto.regDate}" pattern="HH:mm" type="time"/></td>
+                            </c:when>
+                            <c:otherwise>
+                                <td class="regdate"><fmt:formatDate value="${boardDto.regDate}" pattern="yyyy-MM-dd" type="date"/></td>
+                            </c:otherwise>
+                        </c:choose>
+                        <td class="viewcnt">${boardDto.viewCnt}</td>
+                    </tr>
+                </c:forEach>
+                <c:if test="${!empty errorMsg}">
+                    <tr>
+                        <td colspan="5" style="color: red">SYSTEM ERROR!! : ${errorMsg}</td>
+                    </tr>
+                </c:if>
+            </tbody>
+        </table>
+        <br/>
+        <div class="paging-container">
+            <div class="paging">
+                <c:choose>
+                <c:when test="${navi.totalCnt == null || navi.totalCnt == 0}">
+                    <div> 게시물이 없습니다. </div>
+                </c:when>
+                <c:otherwise>
+                    <c:if test="${navi.showPrev}">
+                        <a href="<c:url value='/board/list${navi.searchOption.getQueryString(navi.beginPage - 1)}'/>" class="page">◀</a>
+                    </c:if>
+                    <c:forEach var="i" begin="${navi.beginPage}" end="${navi.endPage}">
+                        <a href="<c:url value='/board/list${navi.searchOption.getQueryString(i)}'/>" class="page ${i eq navi.searchOption.page? 'paging-active' : ''}">${i}</a>
+                    </c:forEach>
+                    <c:if test="${navi.showNext}">
+                        <a href="<c:url value='/board/list${navi.searchOption.getQueryString(navi.endPage + 1)}'/>" class="page">▶</a>
+                    </c:if>
+                </c:otherwise>
+                </c:choose>
+            </div>
+        </div>
     </div>
 </div>
 <script>
@@ -82,7 +109,7 @@
 
     window.onload = function () {
         document.getElementById('writePost').addEventListener('click', function () {
-            location.href = '<c:url value="/board/write?page=${pageHandler.page}&pageSize=${pageHandler.pageSize}"/>';
+            location.href = '<c:url value="/board/write?page=${searchCondition.queryString}"/>';
         });
     };
 </script>

@@ -1,10 +1,11 @@
 package com.fastcampus.ch4.domain;
 
+import org.springframework.web.util.UriComponentsBuilder;
+
 @SuppressWarnings("unused")
 public class SearchOption {
     private Integer page = 1;
     private Integer pageSize = 10;
-    private Integer offset = 0;
     private String keyword = "";
     private String field = "";
 
@@ -15,7 +16,25 @@ public class SearchOption {
         this.pageSize = pageSize;
         this.keyword = keyword;
         this.field = field;
-        offset = (page - 1) * pageSize;
+    }
+    public SearchOption(Integer page) {
+        this(page, 10, "", "");
+    }
+
+    // iv 없이 getter만 존재해도 EL, mybatis에서 사용 가능
+    public String getQueryString() {
+        return getQueryString(page);
+    }
+    public String getQueryString(Integer page) {
+        return UriComponentsBuilder.newInstance()
+                .queryParam("page", page)
+                .queryParam("pageSize", pageSize)
+                .queryParam("keyword", keyword)
+                .queryParam("field", field)
+                .build().toString();
+    }
+    public Integer getOffset() {
+        return (page - 1) * pageSize;
     }
 
     public Integer getPage() {
@@ -29,12 +48,6 @@ public class SearchOption {
     }
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
-    }
-    public Integer getOffset() {
-        return offset;
-    }
-    public void setOffset(Integer offset) {
-        this.offset = offset;
     }
     public String getKeyword() {
         return keyword;
@@ -54,7 +67,6 @@ public class SearchOption {
         return "SearchOption{" +
                 "page=" + page +
                 ", pageSize=" + pageSize +
-                ", offset=" + offset +
                 ", keyword='" + keyword + '\'' +
                 ", field='" + field + '\'' +
                 '}';

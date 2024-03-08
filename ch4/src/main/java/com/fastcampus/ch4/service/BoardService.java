@@ -1,6 +1,7 @@
 package com.fastcampus.ch4.service;
 
 import com.fastcampus.ch4.domain.BoardDto;
+import com.fastcampus.ch4.domain.SearchOption;
 
 import java.util.List;
 import java.util.Map;
@@ -19,4 +20,8 @@ public interface BoardService {
     List<BoardDto> getPage(Map<String, Integer> map) throws Exception;
 
     int modifyPost(BoardDto boardDto) throws Exception;
+
+    int getSearchResultCnt(SearchOption searchOption) throws Exception;
+
+    List<BoardDto> getSearchResultPage(SearchOption searchOption) throws Exception;
 }
