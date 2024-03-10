@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fastcampus.ch4.dao.CommentMapper">
+    <select id="cmtCount" parameterType="int" resultType="int">
+        SELECT count(*)
+        FROM comment
+        WHERE bno = #{bno}
+    </select>
+
+    <delete id="deleteCmt" parameterType="commentDto">
+        DELETE FROM comment
+        WHERE cno = #{cno} AND writer = #{writer}
+    </delete>
+
+    <insert id="insertCmt" parameterType="commentDto">
+        INSERT INTO comment
+            (bno, parent_cno, comment, writer)
+        VALUES
+            (#{bno}, #{parentCno}, #{comment}, #{writer})
+    </insert>
+
+    <select id="selectPostCmts" parameterType="int" resultType="commentDto">
+        SELECT
+            cno
+             , bno
+             , parent_cno AS parentCno
+             , comment
+             , writer
+             , reg_date AS regDate
+             , upd_date AS updDate
+        FROM comment
+        WHERE bno = #{bno}
+        ORDER BY reg_date, cno
+    </select>
+
+    <select id="selectCmt" parameterType="int" resultType="commentDto">
+        SELECT
+            cno
+             , bno
+             , parent_cno AS parentCno
+             , comment
+             , writer
+             , reg_date AS regDate
+             , upd_date AS updDate
+        FROM comment
+        WHERE cno = #{cno}
+    </select>
+
+    <update id="updateCmt" parameterType="commentDto">
+        UPDATE comment
+        SET comment = #{comment}
+            , upd_date = current_timestamp
+        WHERE cno = #{cno} AND writer = #{writer}
+    </update>
+</mapper>

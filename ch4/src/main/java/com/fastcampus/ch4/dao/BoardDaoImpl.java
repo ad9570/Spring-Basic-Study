@@ -15,7 +15,7 @@ public class BoardDaoImpl implements BoardDao {
     @Autowired
     SqlSession session;
 
-    private final String namespace = "com.fastcampus.ch4.dao.BoardMapper.";
+    private final static String namespace = "com.fastcampus.ch4.dao.BoardMapper.";
 
     @Override
     public BoardDto selectPost(Integer bno) throws Exception {

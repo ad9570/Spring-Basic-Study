@@ -6,6 +6,7 @@ import com.fastcampus.ch4.domain.SearchOption;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public interface BoardService {
     int getCount() throws Exception;
 

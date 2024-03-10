@@ -18,20 +18,16 @@ public class BoardDaoImplTest {
     @Autowired
     private BoardDao boardDao;
 
-    private final String WRITER = "qwer";
+    private final static String WRITER = "qwer";
 
     @Test
     public void countTest() throws Exception {
         int initialCount = boardDao.totCount();
 
-        int id = (int) (Math.random() * 1000);
-        BoardDto boardDto = new BoardDto("no title" + id, "no content" + id, WRITER);
-        assertEquals(1, boardDao.insertPost(boardDto));
+        assertEquals(1, insertRandomId());
         assertEquals(boardDao.totCount(), initialCount + 1);
 
-        id = (int) (Math.random() * 1000);
-        boardDto = new BoardDto("no title" + id, "no content" + id, WRITER);
-        assertEquals(1, boardDao.insertPost(boardDto));
+        assertEquals(1, insertRandomId());
         assertEquals(boardDao.totCount(), initialCount + 2);
     }
 
@@ -39,20 +35,14 @@ public class BoardDaoImplTest {
     public void deleteAdminTest() throws Exception {
         int initialCount = boardDao.totCount();
 
-        int id = (int) (Math.random() * 1000);
-        BoardDto boardDto = new BoardDto("no title" + id, "no content" + id, WRITER);
-        assertEquals(1, boardDao.insertPost(boardDto));
+        assertEquals(1, insertRandomId());
 
         List<BoardDto> postList = boardDao.selectAll();
         assertEquals(1, boardDao.deleteForAdmin(postList.get(0).getBno()));
         assertEquals(initialCount, boardDao.totCount());
 
-        id = (int) (Math.random() * 1000);
-        boardDto = new BoardDto("no title" + id, "no content" + id, WRITER);
-        assertEquals(1, boardDao.insertPost(boardDto));
-        id = (int) (Math.random() * 1000);
-        boardDto = new BoardDto("no title" + id, "no content" + id, WRITER);
-        assertEquals(1, boardDao.insertPost(boardDto));
+        assertEquals(1, insertRandomId());
+        assertEquals(1, insertRandomId());
         postList = boardDao.selectAll();
         assertEquals(1, boardDao.deleteForAdmin(postList.get(0).getBno()));
         assertEquals(boardDao.totCount(), initialCount + 1);
@@ -60,42 +50,32 @@ public class BoardDaoImplTest {
 
     @Test
     public void deleteTest() throws Exception {
-        int id = (int) (Math.random() * 1000);
-        BoardDto boardDto = new BoardDto("no title" + id, "no content" + id, WRITER);
-        assertEquals(1, boardDao.insertPost(boardDto));
+        assertEquals(1, insertRandomId());
         int currentCnt = boardDao.totCount();
 
         Integer bno = boardDao.selectAll().get(0).getBno();
-        String writer = boardDto.getWriter();
-        BoardDto myPost = new BoardDto(bno, writer);
+        BoardDto myPost = new BoardDto(bno, WRITER);
         assertEquals(1, boardDao.deleteMyPost(myPost));
         assertEquals(boardDao.totCount(), currentCnt - 1);
 
-        id = (int) (Math.random() * 1000);
-        boardDto = new BoardDto("no title" + id, "no content" + id, WRITER);
-        assertEquals(1, boardDao.insertPost(boardDto));
+        assertEquals(1, insertRandomId());
         currentCnt = boardDao.totCount();
 
         bno = boardDao.selectAll().get(0).getBno();
-        writer = boardDto.getWriter() + "222";
-        myPost = new BoardDto(bno, writer);
+        myPost = new BoardDto(bno, WRITER + "222");
         assertEquals(0, boardDao.deleteMyPost(myPost));
         assertEquals(boardDao.totCount(), currentCnt);
 
         bno = boardDao.selectAll().get(0).getBno();
-        writer = boardDto.getWriter();
-        myPost = new BoardDto(bno, writer);
+        myPost = new BoardDto(bno, WRITER);
         assertEquals(1, boardDao.deleteMyPost(myPost));
         assertEquals(boardDao.totCount(), currentCnt - 1);
 
-        id = (int) (Math.random() * 1000);
-        boardDto = new BoardDto("no title" + id, "no content" + id, WRITER);
-        assertEquals(1, boardDao.insertPost(boardDto));
+        assertEquals(1, insertRandomId());
         currentCnt = boardDao.totCount();
 
         bno = 0;
-        writer = boardDto.getWriter();
-        myPost = new BoardDto(bno, writer);
+        myPost = new BoardDto(bno, WRITER);
         assertEquals(0, boardDao.deleteMyPost(myPost));
         assertEquals(boardDao.totCount(), currentCnt);
     }
@@ -104,19 +84,13 @@ public class BoardDaoImplTest {
     public void insertTest() throws Exception {
         int initialCnt = boardDao.totCount();
 
-        int id = (int) (Math.random() * 1000);
-        BoardDto boardDto = new BoardDto("no title" + id, "no content" + id, WRITER);
-        assertEquals(1, boardDao.insertPost(boardDto));
+        assertEquals(1, insertRandomId());
         assertEquals(boardDao.totCount(), initialCnt + 1);
 
         int currentCnt = boardDao.totCount();
-        id = (int) (Math.random() * 1000);
-        boardDto = new BoardDto("no title" + id, "no content" + id, WRITER);
-        assertEquals(1, boardDao.insertPost(boardDto));
+        assertEquals(1, insertRandomId());
 
-        id = (int) (Math.random() * 1000);
-        boardDto = new BoardDto("no title" + id, "no content" + id, WRITER);
-        assertEquals(1, boardDao.insertPost(boardDto));
+        assertEquals(1, insertRandomId());
         assertEquals(boardDao.totCount(), currentCnt + 2);
     }
 
@@ -127,16 +101,12 @@ public class BoardDaoImplTest {
         List<BoardDto> list = boardDao.selectAll();
         assertEquals(list.size(), currentCnt);
 
-        int id = (int) (Math.random() * 1000);
-        BoardDto boardDto = new BoardDto("no title" + id, "no content" + id, WRITER);
-        assertEquals(1, boardDao.insertPost(boardDto));
+        assertEquals(1, insertRandomId());
 
         list = boardDao.selectAll();
         assertEquals(list.size(), currentCnt + 1);
 
-        id = (int) (Math.random() * 1000);
-        boardDto = new BoardDto("no title" + id, "no content" + id, WRITER);
-        assertEquals(1, boardDao.insertPost(boardDto));
+        assertEquals(1, insertRandomId());
         list = boardDao.selectAll();
         assertEquals(list.size(), currentCnt + 2);
     }
@@ -206,15 +176,13 @@ public class BoardDaoImplTest {
     public void increaseViewCntTest() throws Exception {
         int currentCnt = boardDao.totCount();
 
-        int id = (int) (Math.random() * 1000);
-        BoardDto boardDto = new BoardDto("no title" + id, "no content" + id, WRITER);
-        assertEquals(1, boardDao.insertPost(boardDto));
+        assertEquals(1, insertRandomId());
         assertEquals(boardDao.totCount(), currentCnt + 1);
 
         Integer bno = boardDao.selectAll().get(0).getBno();
         assertEquals(1, boardDao.increaseViewCnt(bno));
 
-        boardDto = boardDao.selectPost(bno);
+        BoardDto boardDto = boardDao.selectPost(bno);
         assertNotNull(boardDto);
         assertEquals(1, boardDto.getViewCnt());
 
@@ -261,5 +229,11 @@ public class BoardDaoImplTest {
 
             assertEquals(postCnt, postSeq);
         }
+    }
+
+    private int insertRandomId() throws Exception {
+        int id = (int) (Math.random() * 1000);
+        BoardDto boardDto = new BoardDto("no title" + id, "no content" + id, WRITER);
+        return boardDao.insertPost(boardDto);
     }
 }
