@@ -25,14 +25,14 @@
         SELECT
             cno
              , bno
-             , parent_cno AS parentCno
+             , coalesce(parent_cno, cno) AS parentCno
              , comment
              , writer
              , reg_date AS regDate
              , upd_date AS updDate
         FROM comment
         WHERE bno = #{bno}
-        ORDER BY reg_date, cno
+        ORDER BY coalesce(parent_cno, cno), cno
     </select>
 
     <select id="selectCmt" parameterType="int" resultType="commentDto">
