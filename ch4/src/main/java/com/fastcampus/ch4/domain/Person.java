@@ -1,5 +1,6 @@
 package com.fastcampus.ch4.domain;
 
+@SuppressWarnings("unused")
 public class Person {
     private String name;
     private int age;

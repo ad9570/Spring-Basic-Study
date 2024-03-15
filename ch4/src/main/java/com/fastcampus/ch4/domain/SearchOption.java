@@ -2,7 +2,7 @@ package com.fastcampus.ch4.domain;
 
 import org.springframework.web.util.UriComponentsBuilder;
 
-@SuppressWarnings("unused")
+@SuppressWarnings("all")
 public class SearchOption {
     private Integer page = 1;
     private Integer pageSize = 10;

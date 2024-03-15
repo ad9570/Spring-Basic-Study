@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public interface CommentService {
     int getCmtCount(Integer bno) throws Exception;
 

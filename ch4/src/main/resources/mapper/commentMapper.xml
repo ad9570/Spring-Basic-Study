@@ -28,7 +28,7 @@
              , coalesce(parent_cno, cno) AS parentCno
              , comment
              , writer
-             , reg_date AS regDate
+             , date AS regDate
              , upd_date AS updDate
         FROM comment
         WHERE bno = #{bno}

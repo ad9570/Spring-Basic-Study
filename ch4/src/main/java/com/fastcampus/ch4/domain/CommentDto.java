@@ -3,6 +3,7 @@ package com.fastcampus.ch4.domain;
 import java.util.Date;
 import java.util.Objects;
 
+@SuppressWarnings("unused")
 public class CommentDto {
     private Integer cno;
     private Integer bno;
