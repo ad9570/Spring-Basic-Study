@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @SuppressWarnings("unused")
 @ResponseStatus(HttpStatus.BAD_REQUEST)    // 500 -> 400
 class MyException extends RuntimeException {
-    private static final long serialVersionUID = 1L;
-
     public MyException(String msg) {
         super(msg);
     }
@@ -23,8 +21,6 @@ class MyException extends RuntimeException {
 
 @SuppressWarnings("unused")
 class MappingException extends RuntimeException {
-    private static final long serialVersionUID = 1L;
-
     public MappingException(String msg) {
         super(msg);
     }

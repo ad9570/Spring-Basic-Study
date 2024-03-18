@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/helloServlet")
 public class HelloServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-
     @Override
     public void init() throws ServletException {
         // 서블릿이 초기화될때 자동 호출되는 메서드

@@ -21,13 +21,24 @@ public class TwoDice {
 		response.setCharacterEncoding("utf-8");
 
 		PrintWriter out = response.getWriter();
-		out.println("<html>");
+		/*out.println("<html>");
 		out.println("<head>");
 		out.println("</head>");
 		out.println("<body>");
 		out.println("<img src = 'resources/img/dice" + idx1 + ".jpg'>");
 		out.println("<img src = 'resources/img/dice" + idx2 + ".jpg'>");
 		out.println("</body>");
-		out.println("</html>");
+		out.println("</html>");*/
+		out.println(
+				"""
+				<html>
+				<head></head>
+				<body>
+				<img src = 'resources/img/dice%s.jpg'/>
+				<img src = 'resources/img/dice%s.jpg'/>
+				</body>
+				</html>
+				""".formatted(idx1, idx2)
+		);
 	}
 }

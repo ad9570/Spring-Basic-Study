@@ -63,8 +63,11 @@ public class SetterCall {
         }
 
         // value의 타입과 type이 다르면, 변환해서 반환
-        if (value instanceof String && type == int.class) { // String -> int
+        /*if (value instanceof String && type == int.class) {
             return Integer.valueOf("" + value);
+        }*/
+        if (value instanceof String intVal && type == int.class) { // String -> int
+            return Integer.valueOf(intVal);
         }
 
         return value;

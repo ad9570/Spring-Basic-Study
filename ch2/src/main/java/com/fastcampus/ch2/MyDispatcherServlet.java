@@ -20,8 +20,6 @@ import org.springframework.validation.support.BindingAwareModelMap;
 // @WebServlet = @Controller + @RequestMapping(서블릿은 메서드 단위가 아닌 클래스 단위 맵핑만 가능)
 @WebServlet("/myDispatcherServlet")  // http://localhost:8080/ch2/myDispatcherServlet?year=2021&month=9&day=8
 public class MyDispatcherServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-
     @Override
     public void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<?, ?> map = request.getParameterMap(); // Map<String, String[]>
@@ -75,10 +73,15 @@ public class MyDispatcherServlet extends HttpServlet {
         }
 
         // 타입이 다르면, 변환해서 반환
-        if (value instanceof String && type == int.class) { // String -> int
+        /*if (value instanceof String && type == int.class) {
             return Integer.valueOf((String) value);
-        } else if (value instanceof String && type == double.class) { // String -> double
+        } else if (value instanceof String && type == double.class) {
             return Double.valueOf((String) value);
+        }*/
+        if (value instanceof String intVal && type == int.class) { // String -> int
+            return Integer.valueOf(intVal);
+        } else if (value instanceof String doubleVal && type == double.class) { // String -> double
+            return Double.valueOf(doubleVal);
         }
 
         return value;

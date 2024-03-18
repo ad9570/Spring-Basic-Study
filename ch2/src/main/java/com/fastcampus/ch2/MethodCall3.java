@@ -68,10 +68,15 @@ public class MethodCall3 {
 
         // 타입이 다르면, 변환해서 반환
         // String.class.isInstance(value) -> value instanceof String
-        if (value instanceof String && type == int.class) { // String -> int
+        /*if (value instanceof String && type == int.class) {
             return Integer.valueOf((String) value);
-        } else if (value instanceof String && type == double.class) { // String -> double
+        } else if (value instanceof String && type == double.class) {
             return Double.valueOf((String) value);
+        }*/
+        if (value instanceof String intVal && type == int.class) { // String -> int
+            return Integer.valueOf(intVal);
+        } else if (value instanceof String doubleVal && type == double.class) { // String -> double
+            return Double.valueOf(doubleVal);
         }
 
         return value;

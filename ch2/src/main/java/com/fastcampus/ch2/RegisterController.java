@@ -59,23 +59,43 @@ public class RegisterController {
 
         int validationMethod = 2;
         // 1. 유효성 검사(validator 혹은 기존 방식 선택)
-        switch (validationMethod) {
+        /*switch (validationMethod) {
             case 1:
+                UserValidator userValidator = new UserValidator();
+                userValidator.validate(user, br);
+                if (br.hasErrors()) {
+                    return "registerForm";
+                }
+                break;
+            case 2:
+                if (br.hasErrors()) {
+                    return "registerForm";
+                }
+                break;
+            default:
+                if (isValid(user).equals("r")) {
+                    String msg = URLEncoder.encode("회원 가입 정보가 올바르지 않습니다.", StandardCharsets.UTF_8);
+                    return "redirect:/register/add?msg=" + msg;
+                } else if (isValid(user).equals("f")) {
+                    return "forward:/register/add";
+                }
+        }*/
+        switch (validationMethod) {
+            case 1 -> {
                 // 1-1. 수동 검증 - Validator를 직접 생성 후, validator()를 직접 호출
                 UserValidator userValidator = new UserValidator();
                 userValidator.validate(user, br);    // BindingResult는 Errors의 자손이기 때문에 가능
                 if (br.hasErrors()) {
                     return "registerForm";
                 }
-                break;
-            case 2:
+            }
+            case 2 -> {
                 // 1-2. 자동 검증 - @InitBinder, @Valid
-
                 if (br.hasErrors()) {
                     return "registerForm";
                 }
-                break;
-            default:
+            }
+            default -> {
                 // 1-3. 기존 방식
                 if (isValid(user).equals("r")) {
                     String msg = URLEncoder.encode("회원 가입 정보가 올바르지 않습니다.", StandardCharsets.UTF_8);
@@ -88,24 +108,11 @@ public class RegisterController {
                 } else if (isValid(user).equals("f")) {
                     return "forward:/register/add";
                 }
+            }
         }
-//		switch (validationMethod) {
-//			case 1:
-//				UserValidator userValidator = new UserValidator();
-//				userValidator.validate(user, br);
-//				if (br.hasErrors()) return "registerForm";
-//			case 2:
-//				if (br.hasErrors()) return "registerForm";
-//			default:
-//				if (isValid(user).equals("r")) {
-//					String msg = URLEncoder.encode("회원 가입 정보가 올바르지 않습니다.", "utf-8");
-//					return "redirect:/register/add?msg=" + msg;
-//				} else if (isValid(user).equals("f")) {
-//					return "forward:/register/add";
-//				}
-//		}
 
         // 2. DB에 신규회원 정보를 저장
+        // ...
 
         return "registerInfo";
     }

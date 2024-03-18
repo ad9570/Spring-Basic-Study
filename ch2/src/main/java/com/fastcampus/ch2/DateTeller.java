@@ -42,7 +42,7 @@ public class DateTeller {
         response.setCharacterEncoding("utf-8");  // 응답의 인코딩을 utf-8로 지정
 
         PrintWriter out = response.getWriter();  // 브라우저로의 출력 스트림(out)을 얻는다.
-        out.println("<html>");
+        /*out.println("<html>");
         out.println("<head>");
         out.println("</head>");
         out.println("<body>");
@@ -50,6 +50,18 @@ public class DateTeller {
         out.println(date + "요일입니다.");
         out.println("</body>");
         out.println("</html>");
-        out.close();
+        out.close();*/
+        out.println(
+                """
+                <html>
+                <head></head>
+                <body>
+                %s년 %s월 %s일은
+                %s요일입니다.
+                </body>
+                </body>
+                </html>
+                """.formatted(year, month, day, date)
+        );
     }
 }
