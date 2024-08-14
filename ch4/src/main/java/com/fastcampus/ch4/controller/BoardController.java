@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -52,7 +53,7 @@ public class BoardController {
     }
 
     @GetMapping("/read")
-    public String read(Integer bno, Model model) {
+    public String read(Integer bno, @ModelAttribute SearchOption searchOption, Model model) {
         try {
             BoardDto boardDto = boardService.readPost(bno);
             model.addAttribute(boardDto);   // Key값 생략 시 타입의 첫글자를 소문자로 한 "boardDto"가 자동으로 키값으로 지정
@@ -140,6 +141,11 @@ public class BoardController {
 
             return "boardDtl";
         }
+    }
+
+    @GetMapping("/comment")
+    public String comment() {
+        return "comment";
     }
 
     private boolean loginCheck(HttpServletRequest request) {

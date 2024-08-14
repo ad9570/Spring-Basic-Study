@@ -96,22 +96,20 @@
     </div>
 </div>
 <script>
-    let resultMsg = '${resultMsg}';
-    if (resultMsg === 'delSuccess') {
-        alert('삭제 성공');
-    } else if (resultMsg === 'delFail') {
-        alert('삭제 실패');
-    } else if (resultMsg === 'wrtSuccess') {
-        alert('등록 성공');
-    } else if (resultMsg === 'uptSuccess') {
-        alert('수정 성공');
-    }
+let resultMsg = '${resultMsg}';
+if (resultMsg === 'delSuccess') {
+    alert('삭제 성공');
+} else if (resultMsg === 'delFail') {
+    alert('삭제 실패');
+} else if (resultMsg === 'wrtSuccess') {
+    alert('등록 성공');
+} else if (resultMsg === 'uptSuccess') {
+    alert('수정 성공');
+}
 
-    window.onload = function () {
-        document.getElementById('writePost').addEventListener('click', function () {
-            location.href = '<c:url value="/board/write?page=${searchCondition.queryString}"/>';
-        });
-    };
+window.onload = () => {
+    document.getElementById('writePost').addEventListener('click', () => location.href = '<c:url value="/board/write${searchOption.queryString}"/>');
+};
 </script>
 </body>
 </html>

@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class SimpleRestController {
-    @GetMapping("/test")
-    public String test() {
-        return "test";
+    @GetMapping("/ajax")
+    public String ajax() {
+        return "ajax";
     }
 
     @PostMapping("/send")

@@ -59,85 +59,87 @@
             <button type="button" class="btn btn-modify" id="modifyBtn" style="display: ${canUpdate};"><i class="fa fa-edit"></i> 수정</button>
             <button type="button" class="btn btn-remove" id="removeBtn" style="display: ${canUpdate};"><i class="fa fa-trash"></i> 삭제</button>
             <button type="button" class="btn btn-list" id="listBtn"><i class="fa fa-bars"></i> 목록</button>
+            <button type="button" class="btn btn-list" id="commentBtn"><i class="fa fa-bars"></i> 댓글</button>
         </form>
     </div>
 </div>
 <script>
-    let resultMsg = '${resultMsg}';
-    if (resultMsg === 'wrtFail') {
-        alert('등록 실패');
-    } else if (resultMsg === 'uptFail') {
-        alert('수정 실패');
-    }
+let resultMsg = '${resultMsg}';
+if (resultMsg === 'wrtFail') {
+    alert('등록 실패');
+} else if (resultMsg === 'uptFail') {
+    alert('수정 실패');
+}
 
-    window.onload = function () {
-        document.getElementById('listBtn').addEventListener('click', () => location.href = '<c:url value="/board/list${searchCondition.queryString}"/>');
+window.onload = () => {
+    document.getElementById('listBtn').addEventListener('click', () => location.href = '<c:url value="/board/list${searchOption.queryString}"/>');
 
-        document.getElementById('removeBtn').addEventListener('click', () => {
-            if (!confirm('삭제하시겠습니까?')) {
-                return;
-            }
+    document.getElementById('removeBtn').addEventListener('click', () => {
+        if (!confirm('삭제하시겠습니까?')) {
+            return;
+        }
 
-            let form = document.getElementById('boardForm');
-            form.setAttribute('action', '<c:url value="/board/remove"/>');
-            form.setAttribute('method', 'POST');
+        let form = document.getElementById('boardForm');
+        form.setAttribute('action', '<c:url value="/board/remove"/>');
+        form.setAttribute('method', 'POST');
+        form.submit();
+    });
+
+    document.getElementById('writeNewBtn').addEventListener('click', () => location.href="<c:url value='/board/write${searchOption.queryString}'/>");
+
+    document.getElementById('writeBtn').addEventListener('click', () => {
+        let form = document.getElementById('boardForm');
+        form.setAttribute('action', '<c:url value="/board/write"/>');
+        form.setAttribute('method', 'POST');
+
+        if (formCheck()) {
             form.submit();
-        });
+        }
+    });
 
-        document.getElementById('writeNewBtn').addEventListener('click', () => location.href="<c:url value='/board/write${searchCondition.queryString}'/>");
+    document.getElementById('modifyBtn').addEventListener('click', () => {
+        const title = document.getElementsByName('title').item(0);
+        const content = document.getElementsByName('content').item(0);
+        const isReadOnly = title.hasAttribute('readonly');
 
-        document.getElementById('writeBtn').addEventListener('click', () => {
+        // 읽기 모드일 경우 수정 모드로 변경
+        if (isReadOnly) {
+            title.removeAttribute('readonly');
+            content.removeAttribute('readonly');
+            document.getElementById('modifyBtn').innerText = '저장';
+            document.getElementById('pageTitle').innerText = '게시물 수정하기';
+        }
+        // 수정 모드일 경우 수정 내용을 서버로 전송
+        else {
             let form = document.getElementById('boardForm');
-            form.setAttribute('action', '<c:url value="/board/write"/>');
+            form.setAttribute('action', '<c:url value="/board/modify"/>');
             form.setAttribute('method', 'POST');
 
             if (formCheck()) {
                 form.submit();
             }
-        });
-
-        document.getElementById('modifyBtn').addEventListener('click', () => {
-            alert();
-            const title = document.getElementsByName('title').item(0);
-            const content = document.getElementsByName('content').item(0);
-            const isReadOnly = title.hasAttribute('readonly');
-
-            // 읽기 모드일 경우 수정 모드로 변경
-            if (isReadOnly) {
-                title.removeAttribute('readonly');
-                content.removeAttribute('readonly');
-                document.getElementById('modifyBtn').innerText = '저장';
-                document.getElementById('pageTitle').innerText = '게시물 수정하기';
-            }
-            // 수정 모드일 경우 수정 내용을 서버로 전송
-            else {
-                let form = document.getElementById('boardForm');
-                form.setAttribute('action', '<c:url value="/board/modify" />');
-                form.setAttribute('method', 'POST');
-
-                if (formCheck()) {
-                    form.submit();
-                }
-            }
-        });
-    };
-
-    const formCheck = function () {
-        let form = document.getElementById('boardForm');
-
-        if (!form.title.value) {
-            alert('제목을 입력해 주세요.');
-            form.title.focus();
-            return false;
         }
-        else if (!form.content.value) {
-            alert('내용을 입력해 주세요.');
-            form.content.focus();
-            return false;
-        }
+    });
 
-        return true;
+    document.getElementById('commentBtn').addEventListener('click', () => location.href = '<c:url value="/board/comment${searchOption.queryString}"/>');
+};
+
+const formCheck = () => {
+    let form = document.getElementById('boardForm');
+
+    if (!form.title.value) {
+        alert('제목을 입력해 주세요.');
+        form.title.focus();
+        return false;
     }
+    else if (!form.content.value) {
+        alert('내용을 입력해 주세요.');
+        form.content.focus();
+        return false;
+    }
+
+    return true;
+}
 </script>
 </body>
 </html>
